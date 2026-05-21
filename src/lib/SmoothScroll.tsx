@@ -13,6 +13,8 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
   const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
+    if (window.innerWidth < 768) return; // native scroll on mobile
+
     const lenis = new Lenis({ duration: 1.3, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
     lenisRef.current = lenis;
     lenisInstance = lenis;
