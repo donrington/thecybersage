@@ -234,8 +234,44 @@ function CertRow({
 }
 
 /* ── GitHub Activity block ────────────────────────────────────────────────── */
-interface GHEvent { action: string; repo: string; time: string; }
-interface GHData  { login: string; repos: number; followers: number; lastActive: string; events: GHEvent[]; }
+interface GHEvent  { action: string; repo: string; time: string; }
+interface GHDay    { date: string; count: number; level: number; }
+interface GHData   { login: string; repos: number; followers: number; lastActive: string; totalLastYear: number; contributions: GHDay[]; events: GHEvent[]; }
+
+const LEVEL_OPACITY = ['rgba(255,255,255,0.07)', 'rgba(255,255,255,0.22)', 'rgba(255,255,255,0.42)', 'rgba(255,255,255,0.65)', 'rgba(255,255,255,0.88)'];
+
+function ContribGrid({ contributions }: { contributions: GHDay[] }) {
+  // Build week columns from the contributions array
+  const weeks: GHDay[][] = [];
+  let week: GHDay[] = [];
+  contributions.forEach((day, i) => {
+    week.push(day);
+    if (week.length === 7 || i === contributions.length - 1) {
+      weeks.push(week);
+      week = [];
+    }
+  });
+
+  return (
+    <div className="flex gap-[3px] overflow-hidden w-full">
+      {weeks.map((wk, wi) => (
+        <div key={wi} className="flex flex-col gap-[3px] flex-1 min-w-0">
+          {wk.map((day, di) => (
+            <div
+              key={di}
+              title={`${day.date}: ${day.count} contributions`}
+              className="rounded-[2px]"
+              style={{
+                aspectRatio: '1',
+                backgroundColor: LEVEL_OPACITY[day.level] ?? LEVEL_OPACITY[0],
+              }}
+            />
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
 
 function GitHubActivity({ sectionInView }: { sectionInView: boolean }) {
   const ref    = useRef<HTMLDivElement>(null);
@@ -324,31 +360,33 @@ function GitHubActivity({ sectionInView }: { sectionInView: boolean }) {
         </div>
 
         {/* Contribution graph */}
-        <div className="px-6 pt-5 pb-4 border-b border-white/6 overflow-hidden">
-          <p
-            className="text-[0.48rem] tracking-[0.2em] uppercase text-white/18 mb-3"
-            style={{ fontFamily: 'Satoshi, system-ui, sans-serif' }}
-          >
-            Contributions · Past Year
-          </p>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="https://ghchart.rshah.org/Donrington"
-            alt="GitHub contribution graph"
-            className="w-full h-auto"
-            style={{
-              filter: 'grayscale(1) invert(1) brightness(0.75) contrast(1.3)',
-              opacity: 0.85,
-            }}
-          />
-        </div>
+        {data && data.contributions.length > 0 && (
+          <div className="px-6 pt-5 pb-5 border-b border-white/6">
+            <div className="flex items-center justify-between mb-3">
+              <p
+                className="text-[0.48rem] tracking-[0.2em] uppercase text-white/18"
+                style={{ fontFamily: 'Satoshi, system-ui, sans-serif' }}
+              >
+                Contributions · Past Year
+              </p>
+              <p
+                className="text-[0.52rem] tracking-[0.14em] uppercase font-semibold text-white/35"
+                style={{ fontFamily: 'Satoshi, system-ui, sans-serif' }}
+              >
+                {data.totalLastYear.toLocaleString()} total
+              </p>
+            </div>
+            <ContribGrid contributions={data.contributions} />
+          </div>
+        )}
 
         {/* Stats row */}
         {data && (
           <div className="flex items-center gap-8 px-6 py-4 border-b border-white/6">
             {[
-              { value: data.repos,     label: 'Public Repos' },
-              { value: data.followers, label: 'Followers'    },
+              { value: data.repos,             label: 'Public Repos'   },
+              { value: data.followers,          label: 'Followers'      },
+              { value: data.totalLastYear.toLocaleString(), label: 'Contributions / yr' },
             ].map((s) => (
               <div key={s.label}>
                 <p
