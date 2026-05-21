@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import gsap from 'gsap';
 
 export function PageLoader({ onDone }: { onDone: () => void }) {
@@ -8,13 +9,31 @@ export function PageLoader({ onDone }: { onDone: () => void }) {
   const countRef   = useRef<HTMLDivElement>(null);
   const lineRef    = useRef<HTMLDivElement>(null);
   const labelRef   = useRef<HTMLDivElement>(null);
+  const logoRef    = useRef<HTMLDivElement>(null);
   const dotRef     = useRef<HTMLSpanElement>(null);
-  const [count, setCount]   = useState(0);
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
 
-    /* ── Count 0 → 100 over 2.6s (ease-in-out quad) ─────────────────────── */
+    /* ── Logo entrance ───────────────────────────────────────────────────── */
+    gsap.fromTo(
+      logoRef.current,
+      { opacity: 0, y: 18, filter: 'blur(8px)' },
+      { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1, ease: 'power3.out', delay: 0.2 },
+    );
+
+    /* ── Logo subtle float ───────────────────────────────────────────────── */
+    gsap.to(logoRef.current, {
+      y: -6,
+      duration: 2.2,
+      ease: 'power1.inOut',
+      yoyo: true,
+      repeat: -1,
+      delay: 1.2,
+    });
+
+    /* ── Count 0 → 100 over 2.6s ─────────────────────────────────────────── */
     const DURATION = 2600;
     const start    = performance.now();
     let raf: number;
@@ -51,21 +70,19 @@ export function PageLoader({ onDone }: { onDone: () => void }) {
       },
     });
 
-    // Fade out counter + label first
-    tl.to([countRef.current, labelRef.current], {
+    tl.to([logoRef.current, countRef.current, labelRef.current], {
       opacity: 0,
-      y: -14,
-      duration: 0.35,
+      y: -16,
+      duration: 0.4,
       ease: 'power2.in',
-      stagger: 0.04,
+      stagger: 0.05,
     });
 
-    // Panels lift off staggered
     panelRefs.current.forEach((panel, i) => {
       tl.to(
         panel,
         { y: '-100%', duration: 0.8, ease: 'power4.inOut' },
-        0.18 + i * 0.07,
+        0.2 + i * 0.07,
       );
     });
 
@@ -90,38 +107,39 @@ export function PageLoader({ onDone }: { onDone: () => void }) {
         ))}
       </div>
 
-      {/* ── Center identity ────────────────────────────────────────────────── */}
+      {/* ── Logo — center ──────────────────────────────────────────────────── */}
       <div
-        ref={labelRef}
-        className="absolute inset-0 flex flex-col items-center justify-center z-10 pointer-events-none gap-3"
+        ref={logoRef}
+        className="absolute inset-0 flex flex-col items-center justify-center z-10 pointer-events-none gap-5"
+        style={{ opacity: 0 }}
       >
-        <span
-          className="block"
-          style={{
-            fontFamily: 'Satoshi, system-ui, sans-serif',
-            fontWeight: 900,
-            fontSize: 'clamp(0.48rem, 1.2vw, 0.62rem)',
-            letterSpacing: '0.32em',
-            textTransform: 'uppercase',
-            color: 'rgba(255,255,255,0.18)',
-          }}
+        <Image
+          src="/logo/logo_white.png"
+          alt="Cybersage"
+          width={180}
+          height={48}
+          priority
+          style={{ height: 44, width: 'auto', objectFit: 'contain', opacity: 0.88 }}
+        />
+
+        {/* Loading indicator below logo */}
+        <div
+          ref={labelRef}
+          className="flex items-center gap-2"
         >
-          Abakwe Carrington
-        </span>
-        <div className="flex items-center gap-2">
           <span
             ref={dotRef}
             className="block w-1 h-1 rounded-full"
-            style={{ backgroundColor: 'rgba(255,255,255,0.55)' }}
+            style={{ backgroundColor: 'rgba(255,255,255,0.6)' }}
           />
           <span
             style={{
               fontFamily: 'var(--font-instrument), Georgia, serif',
               fontStyle: 'italic',
               fontWeight: 400,
-              fontSize: 'clamp(0.7rem, 1.5vw, 0.9rem)',
-              color: 'rgba(255,255,255,0.12)',
-              letterSpacing: '0.04em',
+              fontSize: 'clamp(0.7rem, 1.4vw, 0.85rem)',
+              color: 'rgba(255,255,255,0.18)',
+              letterSpacing: '0.05em',
             }}
           >
             Loading portfolio
@@ -137,10 +155,7 @@ export function PageLoader({ onDone }: { onDone: () => void }) {
         <div
           ref={lineRef}
           className="h-full origin-left"
-          style={{
-            backgroundColor: 'rgba(255,255,255,0.28)',
-            transform: 'scaleX(0)',
-          }}
+          style={{ backgroundColor: 'rgba(255,255,255,0.28)', transform: 'scaleX(0)' }}
         />
       </div>
 
