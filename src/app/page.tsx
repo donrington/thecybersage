@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUp } from 'lucide-react';
 import { SmoothScroll } from '@/lib/SmoothScroll';
+import { PageLoader } from '@/components/PageLoader';
 import { Navbar } from '@/components/Navbar';
 import { Hero } from '@/components/Hero';
 import { About } from '@/components/About';
@@ -44,21 +45,26 @@ function BackToTop() {
 }
 
 export default function Home() {
+  const [loaded, setLoaded] = useState(false);
+
   return (
-    <SmoothScroll>
-      <Navbar />
-      <main>
-        <Hero />
-        <About />
-        <Projects />
-        <Marquee />
-        <Stack />
-        <Services />
-        <Experience />
-        <Credentials />
-        <Contact />
-      </main>
-      <BackToTop />
-    </SmoothScroll>
+    <>
+      {!loaded && <PageLoader onDone={() => setLoaded(true)} />}
+      <SmoothScroll>
+        <Navbar />
+        <main>
+          <Hero />
+          <About />
+          <Projects />
+          <Marquee />
+          <Stack />
+          <Services />
+          <Experience />
+          <Credentials />
+          <Contact />
+        </main>
+        <BackToTop />
+      </SmoothScroll>
+    </>
   );
 }
