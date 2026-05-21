@@ -58,7 +58,7 @@ const PROJECTS = [
     tagline: 'Headless CMS for an oil & gas company with workflow automation, document generation, and role-based access. Cut manual ops by 60%.',
     stack: ['Next.js', 'Django', 'PostgreSQL'],
     image: '/projects/axflo.png',
-    year: '2024',
+    year: '2025',
     link: 'https://axfloo.com',
   },
   {
@@ -78,7 +78,7 @@ const PROJECTS = [
     tagline: 'Manufacturing platform with real-time production tracking, compliance workflows, and WebSocket-powered reporting.',
     stack: ['React', 'Node.js', 'PostgreSQL'],
     image: '/projects/deets.png',
-    year: '2024',
+    year: '2025',
     link: 'https://deetsnigeria.org',
   },
   {
@@ -106,7 +106,7 @@ const PROJECTS = [
     tagline: 'Lead gen site for a Texas cleaning agency. SEO-first build, optimised inquiry funnels, qualified bookings up since launch.',
     stack: ['Next.js', 'Tailwind', 'SEO'],
     image: '/projects/chrisconteras.png',
-    year: '2024',
+    year: '2025',
     link: 'https://chriscleanstexas.com',
   },
   {
@@ -116,7 +116,7 @@ const PROJECTS = [
     tagline: 'Cleaning agency site for Florida. Service showcase, instant quote flow, form completion up 40%.',
     stack: ['React', 'Node.js', 'Tailwind'],
     image: '/projects/myrakeleher.png',
-    year: '2024',
+    year: '2025',
     link: 'https://myrakelehercleaning.com',
   },
   {
@@ -126,7 +126,7 @@ const PROJECTS = [
     tagline: 'Open source dev community. Project showcases, resource sharing, real-time activity feeds.',
     stack: ['React', 'Node.js', 'PostgreSQL'],
     image: '/projects/techhub.png',
-    year: '2024',
+    year: '2023',
     link: 'https://github.com/Donrington/techhub',
   },
   {
@@ -164,7 +164,7 @@ const PROJECTS = [
     tagline: 'SEO-optimised service platform for a vinyl flooring specialist. Service showcase, quote request funnels, sub-1s LCP.',
     stack: ['Next.js', 'Tailwind', 'SEO'],
     image: '/projects/tuantling.png',
-    year: '2024',
+    year: '2026',
     link: 'https://tuantlingvinylflooring.com',
   },
 ] as const;
