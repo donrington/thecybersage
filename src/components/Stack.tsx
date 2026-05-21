@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useMemo } from 'react';
+import { useEffect, useRef, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 
 // ─── Floating vocabulary ───────────────────────────────────────────────────────
@@ -30,6 +30,8 @@ interface FloatWord {
   opacity: number;
 }
 
+const round = (n: number, d = 3) => Math.round(n * 10 ** d) / 10 ** d;
+
 function buildFloatWords(): FloatWord[] {
   return Array.from({ length: 22 }, (_, i) => {
     const r = (n: number) => sr(i * 17 + n);
@@ -43,17 +45,50 @@ function buildFloatWords(): FloatWord[] {
     return {
       id: i,
       word: WORDS[i % WORDS.length],
-      x, y,
-      rot: (r(3) - 0.5) * 14,
-      size: 0.62 + r(4) * 0.65,
-      delay: r(5) * 9,
-      dur: 5 + r(6) * 6,
-      opacity: 0.07 + r(7) * 0.1,
+      x: round(x, 3),
+      y: round(y, 3),
+      rot:     round((r(3) - 0.5) * 14, 3),
+      size:    round(1.0 + r(4) * 1.1, 4),
+      delay:   round(r(5) * 2.5, 3),
+      dur:     round(5 + r(6) * 5, 3),
+      opacity: round(0.45 + r(7) * 0.35, 4),
     };
   });
 }
 
 const EASE = [0.22, 1, 0.36, 1] as const;
+
+// ─── Count-up ─────────────────────────────────────────────────────────────────
+function CountUp({ target, suffix = '+', duration = 1600 }: { target: number; suffix?: string; duration?: number }) {
+  const [display, setDisplay] = useState(0);
+  const ref = useRef<HTMLSpanElement>(null);
+  const started = useRef(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !started.current) {
+          started.current = true;
+          const start = performance.now();
+          const tick = (now: number) => {
+            const t = Math.min((now - start) / duration, 1);
+            const ease = 1 - Math.pow(1 - t, 3); // easeOutCubic
+            setDisplay(Math.round(ease * target));
+            if (t < 1) requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
+        }
+      },
+      { threshold: 0.5 },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [target, duration]);
+
+  return <span ref={ref}>{display}{suffix}</span>;
+}
 
 // ─── Component ────────────────────────────────────────────────────────────────
 export function Stack() {
@@ -120,14 +155,15 @@ export function Stack() {
             position: 'absolute',
             left: `${w.x}%`,
             top: `${w.y}%`,
-            fontFamily: 'Satoshi, system-ui, sans-serif',
+            fontFamily: 'var(--font-instrument), Georgia, serif',
+            fontStyle: 'italic',
             fontSize: `${w.size}rem`,
-            letterSpacing: '0.06em',
+            letterSpacing: '0.02em',
             pointerEvents: 'none',
             userSelect: 'none',
             whiteSpace: 'nowrap',
-            opacity: 0,
           }}
+          initial={{ opacity: 0 }}
           animate={{
             opacity: [0, w.opacity, w.opacity * 0.7, w.opacity, 0],
             filter: ['blur(10px)', 'blur(0px)', 'blur(0px)', 'blur(0px)', 'blur(8px)'],
@@ -147,7 +183,9 @@ export function Stack() {
             repeatDelay: w.dur * 0.8,
             ease: 'easeInOut',
           }}
-        />
+        >
+          {w.word}
+        </motion.span>
       ))}
 
       {/* Ambient orb — top left */}
@@ -314,9 +352,9 @@ export function Stack() {
           transition={{ duration: 0.6, delay: 0.7, ease: EASE }}
         >
           {[
-            { value: '5+',   label: 'Years' },
-            { value: '50+',  label: 'Projects' },
-            { value: '12+',  label: 'Technologies' },
+            { target: 5,  label: 'Years' },
+            { target: 50, label: 'Projects' },
+            { target: 12, label: 'Technologies' },
           ].map((stat, idx) => (
             <div key={idx} style={{ textAlign: 'center' }}>
               <div
@@ -329,7 +367,7 @@ export function Stack() {
                   lineHeight: 1,
                 }}
               >
-                {stat.value}
+                <CountUp target={stat.target} duration={1600 + idx * 200} />
               </div>
               <div
                 style={{
