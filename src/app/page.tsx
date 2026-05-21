@@ -15,6 +15,7 @@ import { Credentials } from '@/components/Credentials';
 import { Marquee } from '@/components/Marquee';
 import { Stack } from '@/components/Stack';
 import { Contact } from '@/components/Contact';
+import { AIAssistant } from '@/components/AIAssistant';
 
 function BackToTop() {
   const [visible, setVisible] = useState(false);
@@ -64,6 +65,7 @@ export default function Home() {
           <Contact />
         </main>
         <BackToTop />
+        <AIAssistant />
       </SmoothScroll>
     </>
   );
