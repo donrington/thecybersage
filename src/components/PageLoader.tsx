@@ -116,10 +116,10 @@ export function PageLoader({ onDone }: { onDone: () => void }) {
         <Image
           src="/logo/logo_white.png"
           alt="Cybersage"
-          width={180}
-          height={48}
+          width={520}
+          height={140}
           priority
-          style={{ height: 44, width: 'auto', objectFit: 'contain', opacity: 0.88 }}
+          style={{ height: 'clamp(60px, 12vw, 130px)', width: 'auto', objectFit: 'contain', opacity: 0.88 }}
         />
 
         {/* Loading indicator below logo */}
