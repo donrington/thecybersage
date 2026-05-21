@@ -323,6 +323,26 @@ function GitHubActivity({ sectionInView }: { sectionInView: boolean }) {
           </a>
         </div>
 
+        {/* Contribution graph */}
+        <div className="px-6 pt-5 pb-4 border-b border-white/6 overflow-hidden">
+          <p
+            className="text-[0.48rem] tracking-[0.2em] uppercase text-white/18 mb-3"
+            style={{ fontFamily: 'Satoshi, system-ui, sans-serif' }}
+          >
+            Contributions · Past Year
+          </p>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="https://ghchart.rshah.org/Donrington"
+            alt="GitHub contribution graph"
+            className="w-full h-auto"
+            style={{
+              filter: 'grayscale(1) invert(1) brightness(0.75) contrast(1.3)',
+              opacity: 0.85,
+            }}
+          />
+        </div>
+
         {/* Stats row */}
         {data && (
           <div className="flex items-center gap-8 px-6 py-4 border-b border-white/6">
