@@ -314,7 +314,9 @@ export function Credentials() {
             repeatDelay: item.dur * 0.9,
             ease: 'easeInOut',
           }}
-        />
+        >
+          {item.word}
+        </motion.span>
       ))}
 
       {/* Ambient orbs */}
