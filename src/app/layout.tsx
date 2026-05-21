@@ -63,7 +63,7 @@ export const metadata: Metadata = {
     locale: 'en_US',
     images: [
       {
-        url: '/cybersage.png',
+        url: '/cybersage_og.png',
         width: 1200,
         height: 630,
         alt: 'Abakwe Carrington — Full Stack Engineer',
@@ -79,7 +79,7 @@ export const metadata: Metadata = {
     title: 'Abakwe Carrington — Full Stack Engineer',
     description:
       '5+ years building high-performance web systems. Next.js · Django · Go · PostgreSQL. Remote · Worldwide.',
-    images: ['/cybersage.png'],
+    images: ['/cybersage_og.png'],
   },
 
   robots: {
@@ -105,7 +105,7 @@ const jsonLd = {
   '@type': 'Person',
   name: 'Abakwe Carrington',
   url: BASE_URL,
-  image: `${BASE_URL}/cybersage.png`,
+  image: `${BASE_URL}/cybersage_og.png`,
   jobTitle: 'Full Stack Engineer',
   description:
     'Full Stack Engineer with 5+ years experience building scalable web systems using Next.js, Django, Go, PostgreSQL, and AWS.',
