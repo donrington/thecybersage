@@ -129,7 +129,7 @@ export function PageLoader({ onDone }: { onDone: () => void }) {
         >
           <span
             ref={dotRef}
-            className="block w-1 h-1 rounded-full"
+            className="block w-2 h-2 rounded-full"
             style={{ backgroundColor: 'rgba(255,255,255,0.6)' }}
           />
           <span
@@ -137,8 +137,8 @@ export function PageLoader({ onDone }: { onDone: () => void }) {
               fontFamily: 'var(--font-instrument), Georgia, serif',
               fontStyle: 'italic',
               fontWeight: 400,
-              fontSize: 'clamp(0.7rem, 1.4vw, 0.85rem)',
-              color: 'rgba(255,255,255,0.18)',
+              fontSize: 'clamp(1.1rem, 2.2vw, 1.5rem)',
+              color: 'rgba(255,255,255,0.28)',
               letterSpacing: '0.05em',
             }}
           >
