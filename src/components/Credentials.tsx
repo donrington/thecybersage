@@ -521,6 +521,7 @@ export function Credentials() {
         <motion.span
           key={item.id}
           aria-hidden
+          className="hidden md:block"
           style={{
             position: 'absolute',
             left: `${item.x}%`,
