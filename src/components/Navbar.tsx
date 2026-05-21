@@ -6,10 +6,11 @@ import Image from 'next/image';
 import { ChevronDown, ArrowRight } from 'lucide-react';
 
 const NAV_LINKS = [
-  { label: 'Work',       href: '#work',       chevron: false },
-  { label: 'Services',   href: '#services',   chevron: true  },
-  { label: 'About',      href: '#about',      chevron: false },
-  { label: 'Experience', href: '#experience', chevron: false },
+  { label: 'Work',        href: '#work',        chevron: false },
+  { label: 'Services',    href: '#services',    chevron: false },
+  { label: 'About',       href: '#about',       chevron: false },
+  { label: 'Experience',  href: '#experience',  chevron: false },
+  { label: 'Credentials', href: '#credentials', chevron: false },
 ];
 
 const SPRING = { type: 'spring' as const, stiffness: 280, damping: 32, mass: 0.75 };
@@ -18,7 +19,7 @@ function NavLink({ label, href, chevron }: { label: string; href: string; chevro
   return (
     <a
       href={href}
-      className="flex items-center gap-1 px-3.5 py-2 rounded-full text-[0.63rem] font-medium tracking-[0.1em] uppercase text-white/55 hover:text-white hover:bg-white/8 transition-all duration-200 whitespace-nowrap"
+      className="flex items-center gap-1 px-3.5 py-2 rounded-full text-[0.63rem] font-medium tracking-widest uppercase text-white/55 hover:text-white hover:bg-white/8 transition-all duration-200 whitespace-nowrap"
       style={{ fontFamily: 'Satoshi, system-ui, sans-serif' }}
     >
       {label}
@@ -29,12 +30,12 @@ function NavLink({ label, href, chevron }: { label: string; href: string; chevro
 
 function HireBtn() {
   return (
-    <a
-      href="mailto:carryoby@gmail.com"
+    <button
+      onClick={() => window.dispatchEvent(new CustomEvent('open-contact-modal'))}
       className="group flex items-center bg-white rounded-full overflow-hidden hover:bg-white/80 transition-colors duration-200 shrink-0"
     >
       <span
-        className="pl-4 pr-1.5 py-[7px] text-black text-[0.61rem] font-medium tracking-[0.14em] uppercase whitespace-nowrap"
+        className="pl-4 pr-1.5 py-1.75 text-black text-[0.61rem] font-medium tracking-[0.14em] uppercase whitespace-nowrap"
         style={{ fontFamily: 'Satoshi, system-ui, sans-serif' }}
       >
         Hire Me
@@ -42,7 +43,7 @@ function HireBtn() {
       <span className="w-7 h-7 flex items-center justify-center rounded-full bg-black/10 group-hover:bg-black/15 transition-colors mr-0.5 shrink-0">
         <ArrowRight size={11} className="text-black" />
       </span>
-    </a>
+    </button>
   );
 }
 
@@ -74,8 +75,8 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', fn);
   }, []);
 
-  /* Compact ≈ logo(140) + sep + 4 links(~320) + sep + CTA(~90) + padding ≈ 640 */
-  const COMPACT_W = 648;
+  /* Compact ≈ logo(140) + sep + 5 links(~410) + sep + CTA(~90) + padding ≈ 740 */
+  const COMPACT_W = 748;
   const targetW   = scrolled ? expandedW : COMPACT_W;
 
   return (
@@ -177,7 +178,7 @@ export function Navbar() {
             }}
             aria-label="Menu"
           >
-            <div className="flex flex-col gap-[5px] w-[15px]">
+            <div className="flex flex-col gap-1.25 w-3.75">
               <motion.span
                 animate={mobileOpen ? { rotate: 45, y: 5.5 } : { rotate: 0, y: 0 }}
                 transition={{ duration: 0.22 }}
@@ -243,17 +244,17 @@ export function Navbar() {
                 transition={{ delay: 0.35, duration: 0.3 }}
                 className="mt-auto pt-8"
               >
-                <a
-                  href="mailto:carryoby@gmail.com"
-                  className="flex items-center justify-center gap-2 bg-black text-white rounded-full py-4 w-full"
+                <button
+                  onClick={() => { setMobileOpen(false); window.dispatchEvent(new CustomEvent('open-contact-modal')); }}
+                  className="flex items-center justify-center gap-2 bg-white text-black rounded-full py-4 w-full"
                 >
                   <span className="text-[0.68rem] font-medium tracking-[0.18em] uppercase" style={{ fontFamily: 'Satoshi, system-ui, sans-serif' }}>
                     Hire Me
                   </span>
-                  <span className="w-6 h-6 rounded-full bg-white/15 flex items-center justify-center">
-                    <ArrowRight size={10} className="text-white" />
+                  <span className="w-6 h-6 rounded-full bg-black/10 flex items-center justify-center">
+                    <ArrowRight size={10} className="text-black" />
                   </span>
-                </a>
+                </button>
               </motion.div>
             </motion.div>
           )}

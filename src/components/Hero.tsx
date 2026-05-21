@@ -128,7 +128,7 @@ export function Hero() {
       <div className="relative z-10 flex flex-col flex-1 w-full pl-[clamp(1rem,4vw,5rem)] pr-[clamp(1rem,8vw,14rem)]">
 
         {/* Top bar nav spacer */}
-        <div className="pt-[88px]" />
+        <div className="pt-22" />
 
         {/* Main content — grows to fill */}
         <div className="flex flex-col flex-1 justify-end pb-[clamp(2.5rem,6vw,6rem)]">
@@ -160,7 +160,7 @@ export function Hero() {
           {/* H1 — massive display name */}
           <h1
             ref={nameRef}
-            className="font-black text-black leading-[0.88] tracking-[-0.05em] will-change-transform"
+            className="font-black text-black leading-[0.88] tracking-tighter will-change-transform"
             style={{
               fontFamily: 'Satoshi, system-ui, sans-serif',
               fontWeight: 800,
@@ -221,8 +221,8 @@ export function Hero() {
                   className="group-hover:translate-x-0.5 group-hover:translate-y-0.5 transition-transform"
                 />
               </motion.a>
-              <motion.a
-                href="#contact"
+              <motion.button
+                onClick={() => window.dispatchEvent(new CustomEvent('open-contact-modal'))}
                 className="text-[0.7rem] font-medium tracking-[0.18em] uppercase text-black/40 hover:text-black border border-black/15 px-6 py-3.5 hover:border-black/40 transition-colors duration-200"
                 style={{ fontFamily: 'Satoshi, system-ui, sans-serif' }}
                 initial={{ opacity: 0, y: 12 }}
@@ -230,7 +230,7 @@ export function Hero() {
                 transition={{ duration: 0.6, delay: 2.2, ease: EASE }}
               >
                 Contact
-              </motion.a>
+              </motion.button>
             </div>
           </div>
         </div>
@@ -245,7 +245,7 @@ export function Hero() {
           <motion.div
             animate={{ y: [0, 8, 0] }}
             transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-            className="w-px h-12 bg-gradient-to-b from-black/30 to-transparent"
+            className="w-px h-12 bg-linear-to-b from-black/30 to-transparent"
           />
           <span
             className="text-[0.55rem] tracking-[0.22em] uppercase text-black/25"
