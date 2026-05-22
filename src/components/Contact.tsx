@@ -472,7 +472,7 @@ export function Contact() {
           <div className="relative z-10 max-w-360 mx-auto px-[clamp(1.25rem,5vw,5rem)] py-[clamp(3rem,5vw,5rem)]">
 
             {/* Top row: logo + socials */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-8 mb-12">
+            <div className="flex flex-col items-center sm:flex-row sm:items-center sm:justify-between gap-6 sm:gap-8 mb-10 sm:mb-12">
               {/* Logo */}
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
@@ -490,7 +490,7 @@ export function Contact() {
 
               {/* Socials */}
               <motion.div
-                className="flex items-center gap-3"
+                className="flex items-center justify-center gap-3"
                 initial={{ opacity: 0 }}
                 animate={sectionInView ? { opacity: 1 } : {}}
                 transition={{ duration: 0.5, delay: 0.7, ease: EASE }}
@@ -512,7 +512,7 @@ export function Contact() {
 
             {/* Middle: nav links */}
             <motion.div
-              className="flex flex-wrap gap-x-8 gap-y-3 mb-12"
+              className="grid grid-cols-3 sm:flex sm:flex-wrap gap-y-4 sm:gap-x-8 sm:gap-y-3 mb-10 sm:mb-12"
               initial={{ opacity: 0 }}
               animate={sectionInView ? { opacity: 1 } : {}}
               transition={{ duration: 0.5, delay: 0.75, ease: EASE }}
@@ -528,7 +528,7 @@ export function Contact() {
                 <a
                   key={label}
                   href={href}
-                  className="text-[0.58rem] tracking-[0.2em] uppercase text-white/22 hover:text-white/60 transition-colors duration-200 font-medium"
+                  className="text-[0.58rem] tracking-[0.2em] uppercase text-white/22 hover:text-white/60 transition-colors duration-200 font-medium text-center sm:text-left"
                   style={{ fontFamily: 'Satoshi, system-ui, sans-serif' }}
                 >
                   {label}
@@ -538,25 +538,23 @@ export function Contact() {
 
             {/* Bottom bar */}
             <motion.div
-              className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-t border-white/6 pt-8"
+              className="flex flex-col items-center sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-3 border-t border-white/6 pt-8"
               initial={{ opacity: 0 }}
               animate={sectionInView ? { opacity: 1 } : {}}
               transition={{ duration: 0.5, delay: 0.85, ease: EASE }}
             >
               <p
-                className="text-[0.55rem] tracking-[0.16em] uppercase text-white/18 font-medium"
+                className="text-[0.55rem] tracking-[0.16em] uppercase text-white/18 font-medium text-center sm:text-left"
                 style={{ fontFamily: 'Satoshi, system-ui, sans-serif' }}
               >
                 © 2026 Abakwe Carrington · Cybersage
               </p>
-              <div className="flex items-center gap-6">
-                <p
-                  className="text-[0.55rem] tracking-[0.14em] uppercase text-white/12"
-                  style={{ fontFamily: 'Satoshi, system-ui, sans-serif' }}
-                >
-                  Designed &amp; Developed by Carrington
-                </p>
-              </div>
+              <p
+                className="text-[0.55rem] tracking-[0.14em] uppercase text-white/12 text-center sm:text-right"
+                style={{ fontFamily: 'Satoshi, system-ui, sans-serif' }}
+              >
+                Designed &amp; Developed by Carrington
+              </p>
             </motion.div>
           </div>  {/* end z-10 wrapper */}
         </footer>
