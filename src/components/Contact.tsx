@@ -446,8 +446,30 @@ export function Contact() {
         </div>
 
         {/* ── Footer ──────────────────────────────────────────────────────── */}
-        <footer className="border-t border-white/6 mt-0">
-          <div className="max-w-360 mx-auto px-[clamp(1.25rem,5vw,5rem)] py-[clamp(3rem,5vw,5rem)]">
+        <footer className="border-t border-white/6 mt-0 relative overflow-hidden">
+
+          {/* Big background wordmark */}
+          <div
+            aria-hidden
+            className="absolute bottom-0 left-0 right-0 pointer-events-none select-none flex justify-center items-end"
+          >
+            <span
+              style={{
+                fontFamily: 'Satoshi, system-ui, sans-serif',
+                fontWeight: 900,
+                fontSize: 'clamp(4.5rem, 18vw, 22rem)',
+                letterSpacing: '-0.02em',
+                color: 'rgba(255,255,255,0.032)',
+                lineHeight: 0.82,
+                whiteSpace: 'nowrap',
+                userSelect: 'none',
+              }}
+            >
+              CYBERSAGE
+            </span>
+          </div>
+
+          <div className="relative z-10 max-w-360 mx-auto px-[clamp(1.25rem,5vw,5rem)] py-[clamp(3rem,5vw,5rem)]">
 
             {/* Top row: logo + socials */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-8 mb-12">
@@ -536,7 +558,7 @@ export function Contact() {
                 </p>
               </div>
             </motion.div>
-          </div>
+          </div>  {/* end z-10 wrapper */}
         </footer>
       </section>
 
