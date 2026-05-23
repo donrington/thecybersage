@@ -16,6 +16,7 @@ import { Marquee } from '@/components/Marquee';
 import { Stack } from '@/components/Stack';
 import { Contact } from '@/components/Contact';
 import { AIAssistant } from '@/components/AIAssistant';
+import { CustomCursor } from '@/components/CustomCursor';
 
 function BackToTop() {
   const [visible, setVisible] = useState(false);
@@ -50,6 +51,7 @@ export default function Home() {
 
   return (
     <>
+      <CustomCursor />
       {!loaded && <PageLoader onDone={() => setLoaded(true)} />}
       <SmoothScroll>
         <Navbar />

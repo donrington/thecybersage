@@ -112,6 +112,7 @@ export function AIAssistant() {
     <>
       {/* ── Trigger button ──────────────────────────────────────────────────── */}
       <motion.button
+        data-cursor="ask"
         onClick={() => setOpen(true)}
         className="fixed bottom-8 left-8 z-50 flex items-center gap-2.5 bg-black border border-white/15 text-white px-4 py-3 hover:border-white/35 hover:bg-white/5 transition-colors duration-200"
         initial={{ opacity: 0, y: 16 }}
@@ -143,6 +144,7 @@ export function AIAssistant() {
 
             {/* Panel */}
             <motion.div
+              data-theme="dark"
               className="fixed bottom-0 left-0 sm:bottom-8 sm:left-8 z-[70] w-full sm:w-[420px] flex flex-col"
               style={{
                 height: 'min(600px, 85dvh)',

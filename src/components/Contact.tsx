@@ -51,6 +51,7 @@ function MagneticCTA({ onClick }: { onClick: () => void }) {
 
   return (
     <motion.button
+      data-cursor="hire"
       style={{ x, y }}
       onClick={onClick}
       onMouseMove={(e) => {
@@ -334,6 +335,7 @@ export function Contact() {
       <section
         ref={sectionRef}
         id="contact"
+        data-theme="dark"
         className="w-full bg-[#0A0A0A] border-t border-white/6"
       >
         <div className="max-w-360 mx-auto px-[clamp(1.25rem,5vw,5rem)] pt-[clamp(5rem,10vw,11rem)] pb-0">

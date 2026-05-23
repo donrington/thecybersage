@@ -509,6 +509,7 @@ export function Credentials() {
     <section
       ref={sectionRef}
       id="credentials"
+      data-theme="dark"
       className="w-full bg-[#0A0A0A] relative overflow-hidden"
     >
       {/* Scroll-progress line — left edge */}

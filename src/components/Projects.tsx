@@ -559,10 +559,11 @@ export function Projects() {
     <section
       ref={sectionRef}
       id="work"
+      data-theme="dark"
       style={{ height: `${SCENE_COUNT * 100}vh`, background: '#0A0A0A', position: 'relative' }}
     >
       {/* ── Sticky viewport ─────────────────────────────────────────────────── */}
-      <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden' }}>
+      <div data-cursor="view" style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden' }}>
 
         {/* ── Background layer — no filter:blur so preserve-3d cube stays sharp ── */}
         <div style={{ position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none' }}>

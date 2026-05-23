@@ -546,7 +546,7 @@ export function Experience() {
         </div>
 
         {/* Pinned horizontal scroll */}
-        <div ref={pinRef} className="h-screen overflow-hidden relative">
+        <div ref={pinRef} data-cursor="drag" className="h-screen overflow-hidden relative">
           {/* Video bg — pinned with content */}
           <video
             autoPlay muted loop playsInline

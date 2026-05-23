@@ -209,6 +209,7 @@ export function Hero() {
             <div className="flex items-center gap-4 shrink-0">
               <motion.a
                 href="#work"
+                data-cursor="view"
                 className="group flex items-center gap-2 bg-black text-white px-6 py-3.5 text-[0.7rem] font-medium tracking-[0.18em] uppercase hover:bg-black/80 transition-colors duration-200"
                 style={{ fontFamily: 'Satoshi, system-ui, sans-serif' }}
                 initial={{ opacity: 0, y: 12 }}
@@ -222,6 +223,7 @@ export function Hero() {
                 />
               </motion.a>
               <motion.button
+                data-cursor="hire"
                 onClick={() => window.dispatchEvent(new CustomEvent('open-contact-modal'))}
                 className="text-[0.7rem] font-medium tracking-[0.18em] uppercase text-black/40 hover:text-black border border-black/15 px-6 py-3.5 hover:border-black/40 transition-colors duration-200"
                 style={{ fontFamily: 'Satoshi, system-ui, sans-serif' }}
