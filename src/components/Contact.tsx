@@ -121,6 +121,7 @@ function ContactModal({ onClose }: { onClose: () => void }) {
 
       {/* Panel */}
       <motion.div
+        data-theme="dark"
         className="relative w-full sm:max-w-xl bg-[#0d0d0d] border border-white/10 overflow-hidden"
         initial={{ y: '100%', opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
