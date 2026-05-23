@@ -264,6 +264,7 @@ export function Services() {
     <section
       ref={sectionRef}
       id="services"
+      data-theme="dark"
       className="w-full bg-[#0A0A0A] relative"
     >
       {/* Scroll-progress line — left edge */}

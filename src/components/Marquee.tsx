@@ -33,7 +33,7 @@ export function Marquee() {
   const items = [...CLIENTS, ...CLIENTS];
 
   return (
-    <div className="w-full bg-[#0A0A0A] border-t border-white/[0.06] py-8 overflow-hidden">
+    <div data-theme="dark" className="w-full bg-[#0A0A0A] border-t border-white/6 py-8 overflow-hidden">
       <div ref={trackRef} className="flex items-center gap-16 w-max">
         {items.map((client, i) => (
           <div key={`${client.name}-${i}`} className="flex items-center gap-16 shrink-0">

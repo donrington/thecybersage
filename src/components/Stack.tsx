@@ -135,6 +135,7 @@ export function Stack() {
     <section
       ref={sectionRef}
       id="stack"
+      data-theme="dark"
       style={{
         position: 'relative',
         width: '100%',
