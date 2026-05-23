@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { animate, scrambleText } from 'animejs';
 import { ArrowUpRight, ArrowLeft } from 'lucide-react';
+import { CustomCursor } from '@/components/CustomCursor';
 
 // ─── Seeded pseudo-random (stable SSR/CSR) ────────────────────────────────────
 function sr(seed: number) {
@@ -90,6 +91,7 @@ export default function NotFound() {
 
   return (
     <main className="relative w-full min-h-screen bg-white overflow-hidden flex flex-col">
+      <CustomCursor />
 
       {/* ── Floating error vocabulary (desktop only) ──────────────────────── */}
       {floaters.map((f) => (
