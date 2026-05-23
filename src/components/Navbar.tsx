@@ -82,7 +82,7 @@ export function Navbar() {
   return (
     <>
       {/* ══ DESKTOP ══════════════════════════════════════════════════════════ */}
-      <div className="fixed top-0 left-0 right-0 z-50 hidden md:block pointer-events-none">
+      <div data-theme="dark" className="fixed top-0 left-0 right-0 z-50 hidden md:block pointer-events-none">
 
         {/* Centering wrapper — flex so no transform conflicts with Framer Motion */}
         <div className="absolute top-4 inset-x-0 flex justify-center">
