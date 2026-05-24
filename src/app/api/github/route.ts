@@ -1,7 +1,12 @@
 import { NextResponse } from 'next/server';
 
 const USERNAME = 'Donrington';
-const GH_HEADERS = { 'User-Agent': 'cybersage-portfolio', Accept: 'application/vnd.github+json' };
+const GH_TOKEN  = process.env.GITHUB_TOKEN;
+const GH_HEADERS: Record<string, string> = {
+  'User-Agent': 'cybersage-portfolio',
+  Accept: 'application/vnd.github+json',
+  ...(GH_TOKEN ? { Authorization: `Bearer ${GH_TOKEN}` } : {}),
+};
 
 function timeAgo(iso: string): string {
   const diff = (Date.now() - new Date(iso).getTime()) / 1000;
@@ -28,7 +33,7 @@ export async function GET() {
     const [profileRes, eventsRes, contribRes] = await Promise.all([
       fetch(`https://api.github.com/users/${USERNAME}`,
         { headers: GH_HEADERS, next: { revalidate: 3600 } }),
-      fetch(`https://api.github.com/users/${USERNAME}/events/public?per_page=15`,
+      fetch(`https://api.github.com/users/${USERNAME}/events?per_page=30`,
         { headers: GH_HEADERS, next: { revalidate: 3600 } }),
       fetch(`https://github-contributions-api.jogruber.de/v4/${USERNAME}?y=last`,
         { next: { revalidate: 3600 } }),

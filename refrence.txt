@@ -1,351 +1,209 @@
-<main id="app">
-    <div class="hero-container">
-        <h1 class="hero-title">
-            <span class="serif-italic coral">hundreds </span> of ways <br>
-            to say <span class="serif-italic coral"> cheers!</span>
-        </h1>
-    </div>
-    <div id="cheers-container" class="cheers-container"></div>
-</main>
+<!-- PRE-LOADER -->
+<div class="overlay">
+    <div class="layer layer-1"></div>
+    <div class="layer layer-2"></div>
+    <div class="layer layer-3"></div>
+    <div class="layer layer-4"></div>
+    <div class="layer layer-5"></div>    
+</div>
+<div class="count"></div>
 
-:root {
-    --bg-color: #f5f5f3;
-    --text-main: #1a1a1a;
-    --text-muted: #888888;
-    --accent-coral: #ff5f5f;
-    --font-sans: "Outfit", sans-serif;
-    --font-serif: "Playfair Display", serif;
-    --transition-speed: 1.5s;
-}
+<!-- NAVBAR -->
+<div class="nav">
+    <div class="nav__logo">
+      This Is <br> A logo
+    </div>
+    <button class="nav__btn">
+      <p>Menu</p>
+    </button>
+</div>
+
+<!-- CONTENT -->
+<section>
+      <div class="hero">
+          <div class="hero__text">
+            <li><a href="#about"></a></li>
+            <h1 class="hero__title">Creativity</h1>
+          </div>
+      </div>  
+</section>
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  font-family: 'Poppins';
 }
 
-body {
-    background-color: var(--bg-color);
-    color: var(--text-main);
-    font-family: var(--font-sans);
-    overflow: hidden; /* Prevent scrolling during animations */
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+li, a, button {
+  border: none;
+  outline: none;
+  color: inherit;
+  list-style: none;
+  text-decoration: none;
+  background-color: transparent;
 }
 
-#app {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+body,
+html {
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
 }
 
-.hero-container {
-    z-index: 10;
-    text-align: center;
-    pointer-events: none;
-    width: 100%;
+.overlay {
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 900;
+  height: 100vh;
+  display: flex;
+  position: fixed;
 }
 
-.hero-title {
-    font-size: clamp(2.5rem, 8vw, 5rem);
-    font-weight: 300;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    color: var(--text-main);
-    display: block;
-    text-align: center;
-    margin: 0;
-    width: 100%;
+.layer {
+  background-color: #000;
 }
 
-.hero-title .char {
-    display: inline-block;
-    transition: transform 0.3s ease-out, filter 0.3s ease-out;
-    pointer-events: auto;
+.layer-1 {flex: 1;}
+.layer-2 {flex: 1;}
+.layer-3 {flex: 1;}
+.layer-4 {flex: 1;}
+.layer-5 {flex: 1;}
+
+.count {
+  right: .5%;
+  bottom: .5%;
+  z-index: 999;
+  width: 550px;
+  color: #fff;
+  font-size: 5rem;
+  position: fixed;
+  font-weight: 800;
+  text-align: right;
 }
 
-.serif-italic {
-    font-family: var(--font-serif);
-    font-style: italic;
+.nav {
+  width: 100%;
+  z-index: 800;
+  height: 100px;
+  display: flex;
+  padding: 0 5%;
+  position: fixed;
+  user-select: none;
+  align-items: center;
+  mix-blend-mode: difference;
+  justify-content: space-between;
 }
 
-.coral {
-    color: var(--accent-coral);
+.nav__logo {
+  color: #fff;
+  line-height: 90%;
+  font-size: 1.3rem;
+  font-weight: lighter;
+  text-transform: uppercase;
 }
 
-.cheers-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
+.nav__btn {
+  width: 10%;
+  height: 100%;
+  font-size: 1.2rem;
 }
 
-/* Animated Cheers Words */
-.cheer-item {
-    position: absolute;
-    font-family: var(--font-serif);
-    font-style: italic;
-    font-size: clamp(1.2rem, 3vw, 2.5rem);
-    color: var(--text-muted);
-    white-space: nowrap;
-    opacity: 0;
-    filter: blur(10px);
-    transition: transform 10s linear; /* Subtle movement */
-    pointer-events: none;
+.nav__btn p {
+  color: #fff;
+  cursor: pointer;
+  font-weight: lighter;
+  text-transform: uppercase;
 }
 
-.cheer-item.active {
-    animation: fadeInBlur var(--transition-speed) forwards,
-        fadeOutBlur var(--transition-speed) 4s forwards;
+.nav__btn p::after {
+  width: 0%;
+  content: '';
+  height: 3px;
+  bottom: 50px;
+  display: block;
+  transition: .3s;
+  margin-left: 26px;
+  position: absolute;
+  background-color: #fff;
 }
 
-@keyframes fadeInBlur {
-    0% {
-        opacity: 0;
-        filter: blur(20px);
-        transform: translateY(10px) scale(0.95);
+.nav__btn p:hover::after {
+  width: 5%;
+}
+
+section {
+  width: 100%;
+  position: relative;
+}
+
+section .hero {
+  width: 100%;
+  height: 100vh;
+}
+
+section .hero__text {
+  width: 100%;
+  height: 100%;
+  padding: 0 5%;
+  color: #000;
+  overflow: hidden;
+  position: relative;
+}
+
+section .hero__text h1 {
+  z-index: 1;
+  left: 50%;
+  bottom: -10%;
+  font-size: 14rem;
+  position: absolute;
+  text-transform: uppercase;
+  transform: translate(-50%);
+}
+
+section .hero__text p {
+  position: absolute;
+  font-size: 1.5rem;
+  font-family: 'Montreal';
+}
+
+
+//PRELOADER
+//DONE WITH GSAP
+gsap.to('.count', {y: '-100vh', delay: 6.5})
+gsap.to('.layer-1', {y: '-100vh', delay: 5.7})
+gsap.to('.layer-2', {y: '-100vh', delay: 5.9})
+gsap.to('.layer-3', {y: '-100vh', delay: 6.1})
+gsap.to('.layer-4', {y: '-100vh', delay: 6.3})
+gsap.to('.layer-5', {y: '-100vh', delay: 6.5})
+gsap.to('.overlay', {y: '-100vh', delay: 7.1})
+
+//TEXT REVEAL
+//ALSO DONE WITH GSAP
+const tl = gsap.timeline();
+tl.from(".hero__img", 1.8, {
+    y: 100,
+    ease: "power4.out",
+    delay: 5.7,
+    skewY: 1,
+    stagger: {
+    amount: 0.3
     }
-    100% {
-        opacity: 0.6; /* Keep them subtle as in the image */
-        filter: blur(0px);
-        transform: translateY(0) scale(1);
-    }
-}
+})
 
-@keyframes fadeOutBlur {
-    0% {
-        opacity: 0.6;
-        filter: blur(0px);
-        transform: translateY(0) scale(1);
-    }
-    100% {
-        opacity: 0;
-        filter: blur(20px);
-        transform: translateY(-10px) scale(1.05);
-    }
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .hero-title {
-        font-size: 2.8rem;
-    }
-}
-
-
-const cheersData = [
-    { word: "¡Salud!", location: "España / Latinoamérica" },
-    { word: "Cheers!", location: "Reino Unido / EE. UU." },
-    { word: "Chin Chin", location: "Italia" },
-    { word: "Santé", location: "Francia" },
-    { word: "Salute", location: "Italia" },
-    { word: "Prost", location: "Alemania" },
-    { word: "Zum Wohl", location: "Alemania" },
-    { word: "Skål", location: "Suecia / Noruega / Dinamarca" },
-    { word: "Kanpai", location: "Japón" },
-    { word: "Gān bēi", location: "China" },
-    { word: "Geonbae", location: "Corea del Sur" },
-    { word: "Sláinte", location: "Irlanda / Escocia" },
-    { word: "Saúde", location: "Portugal / Brasil" },
-    { word: "Na zdrowie", location: "Polonia" },
-    { word: "Na zdraví", location: "República Checa" },
-    { word: "Sa zdorovie", location: "Rusia" },
-    { word: "Yamas", location: "Grecia" },
-    { word: "L'chaim", location: "Israel" },
-    { word: "Şerefe", location: "Turquía" },
-    { word: "¡Tinto!", location: "Colombia" },
-    { word: "Chok dee", location: "Tailandia" },
-    { word: "Mót, hai, ba, yo!", location: "Vietnam" },
-    { word: "Budmo", location: "Ucrania" },
-    { word: "Egészségedre", location: "Hungría" },
-    { word: "Proshat", location: "Albania" },
-    { word: "Kippis", location: "Finlandia" },
-    { word: "I n driten", location: "Albania" },
-    { word: "Noroc", Rumania: "" },
-    { word: "Ziveli", location: "Serbia / Croacia" },
-    { word: "Evviva", location: "Italia" },
-    { word: "Tanti auguri", location: "Italia" },
-    { word: "Gesondheid", location: "Sudáfrica" },
-    { word: "Mabuhay", location: "Filipinas" },
-    { word: "Fenékig", location: "Hungría" },
-    { word: "Serefe", location: "Turquía" },
-    { word: "Jai Ho", location: "India" },
-    { word: "Vullnet", location: "Albania" },
-    { word: "Gëzuar", location: "Albania" }
-];
-
-const container = document.getElementById("cheers-container");
-const MAX_VISIBLE = 8;
-let activeCount = 0;
-
-function createCheerElement() {
-    if (activeCount >= MAX_VISIBLE) return;
-
-    const data = cheersData[Math.floor(Math.random() * cheersData.length)];
-    const el = document.createElement("div");
-    el.className = "cheer-item active";
-    el.innerText = data.word;
-
-    // Random position logic, trying to avoid the center
-    const padding = 100;
-    let x, y;
-    const isMobile = window.innerWidth < 768;
-
-    // We want to avoid a central rectangle where the title is
-    const centerX = window.innerWidth / 2;
-    const centerY = window.innerHeight / 2;
-    const safeZoneWidth = isMobile ? 300 : 600; // Increased
-    const safeZoneHeight = isMobile ? 200 : 400; // Increased
-
-    let attempts = 0;
-    do {
-        x = Math.random() * (window.innerWidth - padding * 2) + padding;
-        y = Math.random() * (window.innerHeight - padding * 2) + padding;
-        attempts++;
-    } while (
-        attempts < 10 &&
-        x > centerX - safeZoneWidth / 2 &&
-        x < centerX + safeZoneWidth / 2 &&
-        y > centerY - safeZoneHeight / 2 &&
-        y < centerY + safeZoneHeight / 2
-    );
-
-    el.style.left = `${x}px`;
-    el.style.top = `${y}px`;
-
-    // Slight random rotation for more organic feel
-    const rotation = (Math.random() - 0.5) * 10;
-    el.style.transform = `rotate(${rotation}deg)`;
-
-    container.appendChild(el);
-    activeCount++;
-
-    // Remove element after animation finishes
-    // fadeIn (1.5s) + stay (2.5s) + fadeOut (1.5s) = ~5.5s
-    setTimeout(() => {
-        el.remove();
-        activeCount--;
-    }, 6000);
-}
-
-// Initial batch
-for (let i = 0; i < 4; i++) {
-    setTimeout(createCheerElement, i * 800);
-}
-
-// Continuous loop
-setInterval(() => {
-    if (activeCount < MAX_VISIBLE) {
-        createCheerElement();
-    }
-}, 1200);
-
-// Text splitting logic to wrap each character in a span
-function prepareHeroTitle() {
-    const hero = document.querySelector(".hero-title");
-    if (!hero) return;
-
-    const processNode = (node) => {
-        if (node.nodeType === 3) {
-            // Text node
-            const text = node.textContent.trim();
-            if (!text) return null;
-
-            // Split into words to handle internal spaces correctly
-            const words = text.split(/\s+/);
-            const fragment = document.createDocumentFragment();
-
-            words.forEach((word, wordIdx) => {
-                word.split("").forEach((char) => {
-                    const span = document.createElement("span");
-                    span.className = "char";
-                    span.textContent = char;
-                    fragment.appendChild(span);
-                });
-
-                // Add a space between words, but not after the last word
-                if (wordIdx < words.length - 1) {
-                    const space = document.createElement("span");
-                    space.className = "char";
-                    space.textContent = "\u00A0";
-                    fragment.appendChild(space);
-                }
-            });
-            return fragment;
-        } else if (node.nodeType === 1) {
-            // Element node
-            if (node.tagName === "BR") return node.cloneNode(true);
-
-            const newElement = node.cloneNode(false);
-            Array.from(node.childNodes).forEach((child) => {
-                const processed = processNode(child);
-                if (processed) newElement.appendChild(processed);
-            });
-            return newElement;
-        }
-        return null;
-    };
-
-    const originalHTML = hero.innerHTML;
-    // Simple way to handle the title: split by <br> and process each part
-    const parts = originalHTML.split(/<br\s*\/?>/i);
-    hero.innerHTML = "";
-
-    parts.forEach((part, idx) => {
-        const tempDiv = document.createElement("div");
-        tempDiv.innerHTML = part;
-        Array.from(tempDiv.childNodes).forEach((node) => {
-            const processed = processNode(node);
-            if (processed) hero.appendChild(processed);
-        });
-        if (idx < parts.length - 1) {
-            hero.appendChild(document.createElement("br"));
-        }
-    });
-}
-
-prepareHeroTitle();
-
-// Mouse proximity effect
-document.addEventListener("mousemove", (e) => {
-    const mouseX = e.clientX;
-    const mouseY = e.clientY;
-
-    const characters = document.querySelectorAll(".hero-title .char");
-    characters.forEach((char) => {
-        const rect = char.getBoundingClientRect();
-        const charX = rect.left + rect.width / 2;
-        const charY = rect.top + rect.height / 2;
-
-        const distX = mouseX - charX;
-        const distY = mouseY - charY;
-        const distance = Math.sqrt(distX * distX + distY * distY);
-
-        const radius = 80; // Optimized radius
-
-        if (distance < radius) {
-            const power = (radius - distance) / radius;
-            const moveX = (distX / distance) * power * -20;
-            const moveY = (distY / distance) * power * -20;
-            const blur = power * 3;
-
-            char.style.transform = `translate(${moveX}px, ${moveY}px) scale(${
-                1 + power * 0.3
-            })`;
-            char.style.filter = `blur(${blur}px)`;
-            char.style.color = "var(--accent-coral)";
-        } else {
-            char.style.transform = "translate(0, 0) scale(1)";
-            char.style.filter = "blur(0px)";
-            char.style.color = "";
-        }
-    });
+//PRELOADER PROGRESS
+//DONE WITH JQUERY
+$(document).ready(function(){
+    var count=0;
+    var counter= setInterval(function() {
+      if(count<101){
+        $('.count').text(count+'%');
+        count++; 
+      }
+      else {
+        clearInterval(counter);
+      }
+    },50)
 });

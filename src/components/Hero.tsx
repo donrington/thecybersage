@@ -117,9 +117,11 @@ export function Hero() {
           muted
           loop
           playsInline
+          preload="auto"
+          poster="/hero_poster.jpg"
           className="absolute inset-0 w-full h-full object-cover"
         >
-          <source src="/hero_3.mp4" type="video/mp4" />
+          <source src="/hero_matrix_opt.mp4" type="video/mp4" />
         </video>
         <div className="absolute inset-0 bg-white/55" />
       </div>
