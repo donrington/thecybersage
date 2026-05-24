@@ -167,6 +167,16 @@ const PROJECTS = [
     year: '2026',
     link: 'https://tuantlingvinylflooring.com',
   },
+  {
+    id: 'chronos',
+    name: 'Chronos',
+    category: 'Ambient AI Platform',
+    tagline: 'Adaptive ambient display system powered by Google Gemini. Auto-tags images with AI, scores content by time-of-day, mood, and context. Cloudinary-backed storage with user feedback loop.',
+    stack: ['Python', 'Streamlit', 'PostgreSQL', 'Gemini AI'],
+    image: '/projects/chronos.png',
+    year: '2025',
+    link: 'https://thechronosaura.com',
+  },
 ] as const;
 
 type Project = (typeof PROJECTS)[number];
