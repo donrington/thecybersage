@@ -174,7 +174,7 @@ const PROJECTS = [
     tagline: 'Adaptive ambient display system powered by Google Gemini. Auto-tags images with AI, scores content by time-of-day, mood, and context. Cloudinary-backed storage with user feedback loop.',
     stack: ['Python', 'Streamlit', 'PostgreSQL', 'Gemini AI'],
     image: '/projects/chronos.png',
-    year: '2025',
+    year: '2026',
     link: 'https://thechronosaura.com',
   },
 ] as const;
