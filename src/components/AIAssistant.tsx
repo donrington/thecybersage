@@ -7,9 +7,9 @@ import { X, Send, Sparkles } from 'lucide-react';
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 const SUGGESTIONS = [
-  'What backend technologies does he know?',
-  'Has he worked with payments or Stripe?',
   'What are his strongest projects?',
+  'Has he built anything with AI?',
+  'What backend technologies does he know?',
   'Is he available for hire?',
 ];
 

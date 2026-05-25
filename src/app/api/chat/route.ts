@@ -21,11 +21,12 @@ LinkedIn: linkedin.com/in/carrington-abakwe-b0b0a0217
 
 ## Core Skills & Stack
 
-**Frontend:** Next.js, React, TypeScript, Tailwind CSS, Framer Motion, GSAP
-**Backend:** Django (Python), Go, Node.js, REST APIs, WebSockets
-**Databases:** PostgreSQL, Redis
-**Cloud & DevOps:** AWS, Docker, CI/CD pipelines, Nginx, infrastructure provisioning
-**Other:** HIPAA compliance, zero-trust security, Stripe payments, JWT auth, microservices
+**Frontend:** Next.js, React, TypeScript, Tailwind CSS, Framer Motion, GSAP, WebRTC
+**Backend:** Django (Python), Go, Node.js, Flask, REST APIs, WebSockets, Django Channels, Protocol Buffers (protobuf)
+**AI / ML / Vision:** Google Gemini Vision API, OpenCV, GStreamer, YOLOv8 / TFLite (in-progress), computer vision pipelines, embedded AI inference
+**Databases:** PostgreSQL, Redis, SQLite, SQLAlchemy
+**Cloud & DevOps:** AWS, Docker, CI/CD pipelines, Nginx, MediaMTX (RTSP/WebRTC media server), systemd service management
+**Other:** HIPAA compliance, zero-trust security, Stripe payments, JWT auth, microservices, embedded Linux, IoT sensor integration
 
 ---
 
@@ -44,10 +45,8 @@ Stack: Next.js, Django, PostgreSQL
 Stack: Next.js, Node.js, PostgreSQL
 
 **NextGen Robotics** — Software Engineer (2025, Contract · Remote)
-- Scalable Django backend on cloud — 30% performance gain through architecture optimisation
-- CI/CD pipelines cut deployment time 45%
-- Zero-trust security and VPN infrastructure reduced vulnerabilities 20%, downtime 35%
-Stack: Next.js, Go, AWS
+Building Orion — a distributed AI surveillance system across three microservices. The camera node (Orion-Core) runs on an embedded Linux device: Python captures frames via OpenCV/V4L2, encodes to H.264 through a GStreamer pipeline, streams via UDP/RTP into MediaMTX which re-publishes as RTSP and WebRTC to the browser. Commands and telemetry flow bidirectionally via WebSockets using Protocol Buffers (protobuf) for binary serialization. The Django middleware (OrionUI) bridges two WebSocket consumers — one for the camera device, one for the browser — relaying protobuf messages between them via Django Channels. A third service (Orion-Storage) is a Flask REST API on a VPS that accepts video uploads, stores MP4s to disk, and logs metadata (filename, camera, duration, size, timestamp) to SQLite. The browser UI is a real-time dashboard with live WebRTC video, HUD telemetry (FPS sparkline, CPU/RAM, uplink), camera controls (brightness, contrast, resolution), and a recordings manager. The AI layer — motion detection, person recognition, pipeline leak detection via thermal sensors — is the active next phase, with the inference engine designed to plug into the existing frame pipeline inside Orion-Core. The protobuf schema is being extended with DetectionEvent messages (type, confidence, bounding box, zone, timestamp) to carry AI events from device to dashboard.
+Stack: Python, Django, Django Channels, GStreamer, OpenCV, Protocol Buffers, WebRTC, MediaMTX, Flask, SQLite, WebSockets, Next.js, Go, AWS, Docker
 
 **Autoboy** — Sr. Full Stack Developer (2025, Full-time · Remote)
 - Scaled a dual-sided automotive marketplace with real-time inventory and Go microservices
@@ -116,11 +115,84 @@ Stack: Python, Selenium, PostgreSQL
 
 ---
 
+## Projects Portfolio
+
+**Chronos** (2026) — AI / Ambient Technology — thechronosaura.com
+Adaptive ambient display system powered by Google Gemini AI. Automatically tags and scores images by time-of-day, mood, seasonality, and user context using a weighted decision engine. Cloudinary-backed media storage, user feedback loop (likes/skips), SQLAlchemy ORM. Built entirely in Python with Streamlit, PostgreSQL, and the Gemini Vision API. Abakwe's primary AI/ML project — it demonstrates his ability to integrate LLM/vision APIs into production systems beyond the standard web stack.
+Stack: Python, Streamlit, PostgreSQL, Google Gemini AI, Cloudinary, SQLAlchemy
+
+**Autoboy Express** (2025) — B2B / B2C Automotive Marketplace — autoboyexpress.com
+Dual-sided marketplace for buyers and sellers. Go microservices backend, real-time inventory feeds, Redis-cached API layer, React seller dashboard. 30% DB latency reduction under peak load.
+Stack: React, Go, PostgreSQL, Redis
+
+**RecoverDerm** (2026) — Paramedical Platform — recoverderm.ca
+Full stack for a paramedical clinic. HIPAA-compliant patient portals, treatment tracking, headless CMS, JWT + refresh token rotation. Unauthorized access surface cut 60%, admin overhead down 40%.
+Stack: Next.js, Django, PostgreSQL
+
+**Anoc.ng** (2025) — Audit / Finance — anoc.ng
+Platform for Chartered Accountants. Compliance intake, document management, audit records with encrypted pipelines. Multi-tenant, 50+ concurrent client cases, manual processing time cut 50%.
+Stack: Next.js, Node.js, PostgreSQL
+
+**NextGen Robotics / Orion** (2025) — AI Surveillance System — nextgenerationrobotics.org
+Distributed AI surveillance platform built across three microservices. Orion-Core runs on the camera device: OpenCV frame capture, GStreamer H.264 encoding, UDP/RTP streaming into MediaMTX (RTSP + WebRTC), with a WebSocket back-channel to Django for bidirectional command and telemetry using Protocol Buffers. OrionUI is the Django Channels middleware that bridges the camera device and browser via two WebSocket consumers, serving a real-time dashboard with live WebRTC video, HUD telemetry (FPS, CPU, RAM, uplink), camera controls, and a recordings manager. Orion-Storage is a Flask REST API on a dedicated VPS — handles video uploads, MP4 file storage, and recording metadata in SQLite. The active next phase is the AI inference layer: motion detection, person/object recognition (YOLOv8-nano / TFLite), and pipeline leak detection using thermal sensors — designed to slot into the frame pipeline inside Orion-Core with new DetectionEvent protobuf messages carrying alerts (type, confidence, bounding box, zone, timestamp) to the dashboard in real time.
+Stack: Python, Django, Django Channels, GStreamer, OpenCV, Protocol Buffers, WebRTC, MediaMTX, Flask, SQLite, WebSockets, Next.js, Go, AWS, Docker
+
+**Axflo Oil & Gas** (2025) — Enterprise CMS — axfloo.com
+Headless CMS with workflow automation, document generation, and role-based access. Manual operations cut 60%, communication efficiency up 40%.
+Stack: Next.js, Django, PostgreSQL
+
+**Samdus Oil & Gas** (2024) — Corp Portfolio — samdus.com
+Corporate site with custom GSAP animations. 98/100 Lighthouse, sub-1s LCP, full Core Web Vitals compliance, SEO-first SSR.
+Stack: Next.js, Django
+
+**Deets** (2025) — Industrial System — deetsnigeria.org
+Manufacturing platform with real-time production tracking, compliance workflows, and WebSocket-powered reporting dashboards.
+Stack: React, Node.js, PostgreSQL
+
+**All A Handyman** (2024) — Lead Generation
+Lead gen site for a home services company. Conversion-tuned landing pages and CRM webhooks — qualified inquiries tripled within 30 days of launch.
+Stack: React, Node.js, Tailwind
+
+**Twerk Queen Lagos** (2024) — Event Portfolio
+Event and booking portfolio for a professional performer. GSAP-driven showcase, booking engine, 60fps scroll animations, sub-800ms FCP.
+Stack: Next.js, Tailwind, GSAP
+
+**Chris Conteras / Chris Cleans Texas** (2025) — Cleaning Agency — chriscleanstexas.com
+Lead gen site for a Texas cleaning agency. SEO-first build, optimised inquiry funnels, qualified bookings up significantly since launch.
+Stack: Next.js, Tailwind, SEO
+
+**Myra Keleher Cleaning** (2025) — Cleaning Agency — myrakelehercleaning.com
+Cleaning agency site for Florida. Service showcase, instant quote flow — form completion up 40%.
+Stack: React, Node.js, Tailwind
+
+**TechHub** (2023) — Dev Community — github.com/Donrington/techhub
+Open source developer community platform. Project showcases, resource sharing, real-time activity feeds.
+Stack: React, Node.js, PostgreSQL
+
+**Amanigo Travels** (2024) — Travel Management App
+Booking engine with itinerary builder and integrations with global travel providers. Idempotent payment API prevents duplicate charges and race conditions.
+Stack: Next.js, Django, PostgreSQL
+
+**Rokeyla Fashion** (2024) — Ecommerce
+E-commerce platform for a fashion brand. Stripe integration, live inventory sync via pg_notify, scales with traffic spikes. Manual dispatch coordination down 55%.
+Stack: Next.js, Stripe, PostgreSQL
+
+**KRK Motors** (2024) — Brand Site — krk-motors.vercel.app
+Premium auto dealership brand site. GSAP animations, sub-1s load time, 98/100 Lighthouse score.
+Stack: Next.js, GSAP, Tailwind
+
+**Tuan Tling Vinyl Flooring** (2026) — Home Services — tuantlingvinylflooring.com
+SEO-optimised service platform for a vinyl flooring specialist. Service showcase, quote request funnels, sub-1s LCP.
+Stack: Next.js, Tailwind, SEO
+
+---
+
 ## Key Numbers
 
 - 5+ years experience
-- 14+ projects shipped
-- 12+ technologies
+- 17+ projects shipped
+- 18+ technologies (including AI/ML: Google Gemini, OpenCV, GStreamer, Protocol Buffers, WebRTC)
+- Active work in embedded AI surveillance systems (computer vision, thermal sensing, real-time inference)
 - Consistent 30-65% improvement metrics across engagements
 
 ---
