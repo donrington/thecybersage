@@ -521,10 +521,11 @@ export function Experience() {
       <div className="block lg:hidden relative overflow-hidden">
         {/* Video bg */}
         <video
-          autoPlay muted loop playsInline
+          autoPlay muted loop playsInline preload="auto"
+          poster="/ex_poster.jpg"
           className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
         >
-          <source src="/hero2.mp4" type="video/mp4" />
+          <source src="/ex_video_opt.mp4" type="video/mp4" />
         </video>
         <div className="absolute inset-0 bg-white/78 z-1 pointer-events-none" />
 
@@ -552,7 +553,7 @@ export function Experience() {
             autoPlay muted loop playsInline
             className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
           >
-            <source src="/hero2.mp4" type="video/mp4" />
+            <source src="/ex_video_opt.mp4" type="video/mp4" />
           </video>
           <div className="absolute inset-0 bg-white/72 z-1 pointer-events-none" />
 
