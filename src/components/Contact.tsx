@@ -539,6 +539,29 @@ export function Contact() {
               ))}
             </motion.div>
 
+            {/* Launch record badge */}
+            <motion.div
+              className="flex justify-center sm:justify-start mb-10 sm:mb-12"
+              initial={{ opacity: 0 }}
+              animate={sectionInView ? { opacity: 1 } : {}}
+              transition={{ duration: 0.5, delay: 0.8, ease: EASE }}
+            >
+              <a
+                href="https://websitelaunches.com/site/cybersage.dev"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="opacity-35 hover:opacity-65 transition-opacity duration-300 block"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="https://websitelaunches.com/badge/cybersage.dev.svg"
+                  alt="Established online - Public launch record"
+                  width={153}
+                  height={33}
+                />
+              </a>
+            </motion.div>
+
             {/* Bottom bar */}
             <motion.div
               className="flex flex-col items-center sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-3 border-t border-white/6 pt-8"
