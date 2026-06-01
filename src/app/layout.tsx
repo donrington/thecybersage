@@ -106,15 +106,6 @@ export const metadata: Metadata = {
     description:
       '5+ years building high-performance web systems. Next.js · React · Django · Go · PostgreSQL · AWS. Available for hire — remote, worldwide.',
     locale: 'en_US',
-    images: [
-      {
-        url: '/cybersage_og.png',
-        width: 1200,
-        height: 630,
-        alt: 'Abakwe Carrington — Full Stack Engineer & Web Developer | cybersage.dev',
-        type: 'image/png',
-      },
-    ],
   },
 
   twitter: {
@@ -124,12 +115,6 @@ export const metadata: Metadata = {
     title: 'Abakwe Carrington | Full Stack Engineer & Web Developer',
     description:
       '5+ years building production-grade web systems. Next.js · Django · Go · PostgreSQL · AWS. Available for hire worldwide.',
-    images: [
-      {
-        url: '/cybersage_og.png',
-        alt: 'Abakwe Carrington — Full Stack Engineer | cybersage.dev',
-      },
-    ],
   },
 
   robots: {
