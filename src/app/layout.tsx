@@ -10,35 +10,82 @@ const instrumentSerif = Instrument_Serif({
   display: 'swap',
 });
 
-const BASE_URL = 'https://cybersage.vercel.app';
+const BASE_URL = 'https://cybersage.dev';
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
 
   title: {
-    default: 'Abakwe Carrington — Full Stack Engineer',
+    default: 'Abakwe Carrington | Full Stack Engineer & Web Developer',
     template: '%s | Abakwe Carrington',
   },
 
   description:
-    'Abakwe Carrington is a Full Stack Engineer with 5+ years building scalable, production-grade web systems. Specialising in Next.js, Django, Go, PostgreSQL, and AWS. Available for remote work worldwide.',
+    'Abakwe Carrington (Cybersage) — Full Stack Engineer with 5+ years building scalable, production-grade web applications. Expert in Next.js, React, Django, Go, PostgreSQL & AWS. Available for hire — remote, worldwide.',
 
   keywords: [
-    'Full Stack Engineer',
+    // Brand / name
     'Abakwe Carrington',
+    'Carrington Abakwe',
     'Cybersage',
+    'cybersage.dev',
+    'Cybersage developer',
+    'Donrington',
+    // Role
+    'Full Stack Engineer',
+    'Full Stack Developer',
+    'Software Engineer',
+    'Web Developer',
+    'Frontend Developer',
+    'Backend Engineer',
+    'React Developer',
     'Next.js Developer',
+    'Next.js Expert',
     'Django Developer',
     'Go Developer',
+    'Golang Developer',
+    'TypeScript Developer',
+    'Node.js Developer',
+    'Python Developer',
+    // Hire intent
+    'hire full stack developer',
+    'hire Next.js developer',
+    'hire React developer',
+    'hire software engineer',
+    'hire web developer',
+    'freelance full stack developer',
+    'freelance software engineer',
+    'freelance web developer',
+    'remote software engineer for hire',
+    'contract developer',
+    'available for hire',
+    // Tech stack
+    'Next.js',
+    'React',
+    'Django',
+    'Go',
     'PostgreSQL',
+    'Redis',
     'AWS',
-    'Remote Software Engineer',
-    'Full Stack Developer Nigeria',
-    'Web Developer Portfolio',
-    'React Developer',
-    'Backend Engineer',
-    'API Development',
-    'Software Engineer for hire',
+    'Docker',
+    'TypeScript',
+    'Node.js',
+    'REST API development',
+    'GraphQL',
+    'Microservices',
+    'CI/CD',
+    'cloud engineer',
+    // Portfolio / reach
+    'Full Stack Developer portfolio',
+    'Software Engineer portfolio',
+    'Web Developer portfolio',
+    'Nigerian software engineer',
+    'African developer',
+    'remote developer worldwide',
+    'enterprise web development',
+    'scalable web applications',
+    'production-grade web systems',
+    'high-performance web apps',
   ],
 
   authors: [{ name: 'Abakwe Carrington', url: BASE_URL }],
@@ -46,9 +93,7 @@ export const metadata: Metadata = {
   publisher: 'Abakwe Carrington',
 
   icons: {
-    icon: [
-      { url: '/logo/logo_white.png', type: 'image/png' },
-    ],
+    icon: [{ url: '/logo/logo_white.png', type: 'image/png' }],
     apple: '/logo/logo_white.png',
     shortcut: '/logo/logo_white.png',
   },
@@ -56,17 +101,17 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     url: BASE_URL,
-    siteName: 'Abakwe Carrington',
-    title: 'Abakwe Carrington — Full Stack Engineer',
+    siteName: 'Cybersage — Abakwe Carrington',
+    title: 'Abakwe Carrington | Full Stack Engineer & Web Developer',
     description:
-      '5+ years building high-performance web systems. Next.js · Django · Go · PostgreSQL · AWS. Remote · Available Worldwide.',
+      '5+ years building high-performance web systems. Next.js · React · Django · Go · PostgreSQL · AWS. Available for hire — remote, worldwide.',
     locale: 'en_US',
     images: [
       {
         url: '/cybersage_og.png',
         width: 1200,
         height: 630,
-        alt: 'Abakwe Carrington — Full Stack Engineer',
+        alt: 'Abakwe Carrington — Full Stack Engineer & Web Developer | cybersage.dev',
         type: 'image/png',
       },
     ],
@@ -76,18 +121,26 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     site: '@CarlSwitch_CHUG',
     creator: '@CarlSwitch_CHUG',
-    title: 'Abakwe Carrington — Full Stack Engineer',
+    title: 'Abakwe Carrington | Full Stack Engineer & Web Developer',
     description:
-      '5+ years building high-performance web systems. Next.js · Django · Go · PostgreSQL. Remote · Worldwide.',
-    images: ['/cybersage_og.png'],
+      '5+ years building production-grade web systems. Next.js · Django · Go · PostgreSQL · AWS. Available for hire worldwide.',
+    images: [
+      {
+        url: '/cybersage_og.png',
+        alt: 'Abakwe Carrington — Full Stack Engineer | cybersage.dev',
+      },
+    ],
   },
 
   robots: {
     index: true,
     follow: true,
+    nocache: false,
     googleBot: {
       index: true,
       follow: true,
+      noimageindex: false,
+      'max-video-preview': -1,
       'max-image-preview': 'large',
       'max-snippet': -1,
     },
@@ -95,23 +148,100 @@ export const metadata: Metadata = {
 
   alternates: {
     canonical: BASE_URL,
+    languages: {
+      'en-US': BASE_URL,
+      'en-GB': BASE_URL,
+    },
   },
 
   category: 'technology',
+
+  appleWebApp: {
+    capable: true,
+    title: 'Cybersage',
+    statusBarStyle: 'black-translucent',
+  },
+
+  other: {
+    'theme-color': '#0A0A0A',
+    'msapplication-TileColor': '#0A0A0A',
+    'application-name': 'Cybersage',
+  },
 };
 
-const jsonLd = {
+const personSchema = {
   '@context': 'https://schema.org',
   '@type': 'Person',
+  '@id': `${BASE_URL}/#person`,
   name: 'Abakwe Carrington',
+  alternateName: ['Cybersage', 'Carrington Abakwe', 'Donrington'],
   url: BASE_URL,
-  image: `${BASE_URL}/cybersage_og.png`,
+  image: {
+    '@type': 'ImageObject',
+    url: `${BASE_URL}/cybersage_og.png`,
+    width: 1200,
+    height: 630,
+  },
   jobTitle: 'Full Stack Engineer',
   description:
-    'Full Stack Engineer with 5+ years experience building scalable web systems using Next.js, Django, Go, PostgreSQL, and AWS.',
+    'Full Stack Engineer with 5+ years experience building scalable, production-grade web applications using Next.js, React, Django, Go, PostgreSQL, and AWS.',
+  email: 'abakwecarrington@gmail.com',
+  nationality: { '@type': 'Country', name: 'Nigeria' },
+  hasOccupation: {
+    '@type': 'Occupation',
+    name: 'Full Stack Engineer',
+    description:
+      'Designs, develops, and deploys scalable full-stack web applications for clients worldwide.',
+    occupationLocation: { '@type': 'Country', name: 'Worldwide' },
+    skills:
+      'Next.js, React, TypeScript, Django, Go, Node.js, PostgreSQL, Redis, AWS, Docker, CI/CD, REST APIs, GraphQL',
+  },
   knowsAbout: [
-    'Next.js', 'React', 'Django', 'Go', 'PostgreSQL',
-    'Redis', 'AWS', 'Docker', 'TypeScript', 'Node.js',
+    'Next.js', 'React', 'TypeScript', 'JavaScript',
+    'Django', 'Python', 'Go', 'Node.js',
+    'PostgreSQL', 'Redis', 'MongoDB',
+    'AWS', 'Docker', 'Kubernetes',
+    'REST APIs', 'GraphQL', 'Microservices',
+    'CI/CD', 'DevOps', 'Cloud Architecture',
+    'Web Performance Optimisation', 'System Design',
+  ],
+  makesOffer: [
+    {
+      '@type': 'Offer',
+      itemOffered: {
+        '@type': 'Service',
+        name: 'Full Stack Web Development',
+        description:
+          'End-to-end web application development — from architecture to deployment.',
+      },
+    },
+    {
+      '@type': 'Offer',
+      itemOffered: {
+        '@type': 'Service',
+        name: 'API Design & Integration',
+        description:
+          'RESTful and GraphQL API design, development, and third-party integrations.',
+      },
+    },
+    {
+      '@type': 'Offer',
+      itemOffered: {
+        '@type': 'Service',
+        name: 'Cloud Architecture & DevOps',
+        description:
+          'AWS cloud infrastructure, CI/CD pipelines, Docker containerisation, and deployment automation.',
+      },
+    },
+    {
+      '@type': 'Offer',
+      itemOffered: {
+        '@type': 'Service',
+        name: 'Frontend Engineering',
+        description:
+          'High-performance React and Next.js frontends with advanced animations and polished UX.',
+      },
+    },
   ],
   sameAs: [
     'https://github.com/Donrington',
@@ -121,7 +251,54 @@ const jsonLd = {
   contactPoint: {
     '@type': 'ContactPoint',
     email: 'abakwecarrington@gmail.com',
-    contactType: 'professional',
+    contactType: 'professional inquiry',
+    availableLanguage: 'English',
+  },
+};
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${BASE_URL}/#website`,
+  url: BASE_URL,
+  name: 'Cybersage — Abakwe Carrington',
+  description:
+    'Portfolio and professional profile of Abakwe Carrington — Full Stack Engineer.',
+  author: { '@id': `${BASE_URL}/#person` },
+  publisher: { '@id': `${BASE_URL}/#person` },
+  inLanguage: 'en-US',
+  copyrightYear: new Date().getFullYear(),
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: `${BASE_URL}/?q={search_term_string}`,
+    },
+    'query-input': 'required name=search_term_string',
+  },
+};
+
+const profilePageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  '@id': `${BASE_URL}/#profilepage`,
+  url: BASE_URL,
+  name: 'Abakwe Carrington — Full Stack Engineer Portfolio',
+  description:
+    'Professional portfolio of Abakwe Carrington (Cybersage), a Full Stack Engineer with 5+ years of experience building production-grade web systems.',
+  dateCreated: '2024-01-01',
+  dateModified: new Date().toISOString().split('T')[0],
+  mainEntity: { '@id': `${BASE_URL}/#person` },
+  breadcrumb: {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: BASE_URL,
+      },
+    ],
   },
 };
 
@@ -131,7 +308,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(profilePageSchema) }}
         />
       </head>
       <body className="antialiased">{children}</body>
