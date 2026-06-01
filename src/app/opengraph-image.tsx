@@ -1,12 +1,17 @@
 import { ImageResponse } from 'next/og';
+import { readFileSync } from 'fs';
+import { join } from 'path';
 
-export const runtime = 'edge';
+export const runtime = 'nodejs';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
 const STACK = ['Next.js', 'React', 'Django', 'Go', 'PostgreSQL', 'AWS'];
 
 export default function Image() {
+  const logoBuffer = readFileSync(join(process.cwd(), 'public/logo/logo_white.png'));
+  const logoSrc = `data:image/png;base64,${logoBuffer.toString('base64')}`;
+
   return new ImageResponse(
     (
       <div
@@ -33,18 +38,16 @@ export default function Image() {
           }}
         />
 
-        {/* Brand slug */}
+        {/* Logo */}
         <div style={{ display: 'flex', marginBottom: 'auto' }}>
-          <span
-            style={{
-              color: 'rgba(255,255,255,0.35)',
-              fontSize: '14px',
-              letterSpacing: '0.28em',
-              textTransform: 'uppercase',
-            }}
-          >
-            cybersage.dev
-          </span>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={logoSrc}
+            alt="Cybersage"
+            width={104}
+            height={66}
+            style={{ objectFit: 'contain' }}
+          />
         </div>
 
         {/* Name + role block */}
@@ -128,7 +131,6 @@ export default function Image() {
             ))}
           </div>
 
-          {/* Contact */}
           <span
             style={{
               color: 'rgba(255,255,255,0.22)',
@@ -136,7 +138,7 @@ export default function Image() {
               letterSpacing: '0.08em',
             }}
           >
-            abakwecarrington@gmail.com
+            cybersage.dev
           </span>
         </div>
       </div>
