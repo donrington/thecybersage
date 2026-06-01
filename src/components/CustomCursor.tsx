@@ -42,29 +42,35 @@ function DragArrows({ color }: { color: string }) {
 }
 
 export function CustomCursor() {
-  const dotRef  = useRef<HTMLDivElement>(null);
-  const ringRef = useRef<HTMLDivElement>(null);
+  const dotWrapRef  = useRef<HTMLDivElement>(null);
+  const ringWrapRef = useRef<HTMLDivElement>(null);
 
-  const [variant,   setVariant]   = useState<CursorVariant>('default');
-  const [isDark,    setIsDark]    = useState(false);
-  const [clicking,  setClicking]  = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
-  const [mounted,   setMounted]   = useState(false);
+  // Only variant + isDark stay in React state — they change infrequently
+  // (on element boundary crossings, not on every pixel).
+  const [variant,  setVariant]  = useState<CursorVariant>('default');
+  const [isDark,   setIsDark]   = useState(false);
+  const [clicking, setClicking] = useState(false);
+  const [mounted,  setMounted]  = useState(false);
 
   const mouse      = useRef({ x: -400, y: -400 });
   const ringPos    = useRef({ x: -400, y: -400 });
-  const variantRef = useRef<CursorVariant>('default');
   const rafRef     = useRef<number>(0);
+  // Refs mirror state so RAF loop + event handlers read without stale closure
+  const variantRef = useRef<CursorVariant>('default');
+  const isDarkRef  = useRef(false);
+  const clickingRef = useRef(false);
 
   useEffect(() => { variantRef.current = variant; }, [variant]);
 
+  // RAF loop: only lerps ring position — no React involvement at all
   const tick = useCallback(() => {
     const lag = variantRef.current === 'default' ? 0.095 : 0.075;
     ringPos.current.x += (mouse.current.x - ringPos.current.x) * lag;
     ringPos.current.y += (mouse.current.y - ringPos.current.y) * lag;
-    if (ringRef.current) {
-      ringRef.current.style.transform =
-        `translate(${ringPos.current.x}px, ${ringPos.current.y}px) translate(-50%, -50%)`;
+    if (ringWrapRef.current) {
+      const scale = clickingRef.current ? 0.86 : 1;
+      ringWrapRef.current.style.transform =
+        `translate3d(${ringPos.current.x}px,${ringPos.current.y}px,0) translate(-50%,-50%) scale(${scale})`;
     }
     rafRef.current = requestAnimationFrame(tick);
   }, []);
@@ -77,89 +83,114 @@ export function CustomCursor() {
     setMounted(true);
     rafRef.current = requestAnimationFrame(tick);
 
+    // ── Hot path: position only, zero React state updates ─────────────────
     const onMove = (e: MouseEvent) => {
       mouse.current = { x: e.clientX, y: e.clientY };
-      if (dotRef.current) {
-        dotRef.current.style.transform =
-          `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
-      }
-      setIsVisible(true);
-
-      const el = document.elementFromPoint(e.clientX, e.clientY);
-      // Dark-section detection
-      const themeEl = el?.closest('[data-theme]');
-      setIsDark(themeEl?.getAttribute('data-theme') === 'dark');
-
-      // Explicit cursor override wins first
-      const cursorEl = el?.closest('[data-cursor]');
-      if (cursorEl) {
-        setVariant(cursorEl.getAttribute('data-cursor') as CursorVariant);
-        return;
-      }
-      // Auto-detect interactive elements
-      if (el?.closest('button, a')) {
-        setVariant('link');
-      } else if (el?.closest('input, textarea')) {
-        setVariant('text');
-      } else {
-        setVariant('default');
+      if (dotWrapRef.current) {
+        dotWrapRef.current.style.transform =
+          `translate3d(${e.clientX}px,${e.clientY}px,0) translate(-50%,-50%)`;
       }
     };
 
-    const onDown  = () => setClicking(true);
-    const onUp    = () => setClicking(false);
-    const onLeave = () => setIsVisible(false);
-    const onEnter = () => setIsVisible(true);
+    // ── Variant detection: fires only when cursor crosses element boundaries
+    //    (far less than once-per-pixel). No elementFromPoint needed — we get
+    //    the element from the event itself.
+    const onOver = (e: MouseEvent) => {
+      const el = e.target as Element;
 
-    document.addEventListener('mousemove', onMove, { passive: true });
-    document.addEventListener('mousedown', onDown);
-    document.addEventListener('mouseup', onUp);
-    document.addEventListener('mouseleave', onLeave);
-    document.addEventListener('mouseenter', onEnter);
+      const themeEl = el.closest('[data-theme]');
+      const dark = themeEl?.getAttribute('data-theme') === 'dark';
+      if (dark !== isDarkRef.current) {
+        isDarkRef.current = dark;
+        setIsDark(dark);
+      }
+
+      const cursorEl = el.closest('[data-cursor]');
+      if (cursorEl) {
+        const v = cursorEl.getAttribute('data-cursor') as CursorVariant;
+        if (v !== variantRef.current) setVariant(v);
+        return;
+      }
+
+      let next: CursorVariant = 'default';
+      if (el.closest('button, a'))          next = 'link';
+      else if (el.closest('input, textarea')) next = 'text';
+      if (next !== variantRef.current) setVariant(next);
+    };
+
+    // ── Click: infrequent — state is fine here ──────────────────────────
+    const onDown = () => { clickingRef.current = true;  setClicking(true);  };
+    const onUp   = () => { clickingRef.current = false; setClicking(false); };
+
+    // ── Visibility: direct DOM — no React re-render on enter/leave ────────
+    const show = () => {
+      if (dotWrapRef.current)  dotWrapRef.current.style.opacity  = '1';
+      if (ringWrapRef.current) ringWrapRef.current.style.opacity = '1';
+    };
+    const hide = () => {
+      if (dotWrapRef.current)  dotWrapRef.current.style.opacity  = '0';
+      if (ringWrapRef.current) ringWrapRef.current.style.opacity = '0';
+    };
+
+    document.addEventListener('mousemove',  onMove,  { passive: true });
+    document.addEventListener('mouseover',  onOver,  { passive: true });
+    document.addEventListener('mousedown',  onDown);
+    document.addEventListener('mouseup',    onUp);
+    document.addEventListener('mouseleave', hide);
+    document.addEventListener('mouseenter', show);
 
     return () => {
       cancelAnimationFrame(rafRef.current);
-      document.removeEventListener('mousemove', onMove);
-      document.removeEventListener('mousedown', onDown);
-      document.removeEventListener('mouseup', onUp);
-      document.removeEventListener('mouseleave', onLeave);
-      document.removeEventListener('mouseenter', onEnter);
+      document.removeEventListener('mousemove',  onMove);
+      document.removeEventListener('mouseover',  onOver);
+      document.removeEventListener('mousedown',  onDown);
+      document.removeEventListener('mouseup',    onUp);
+      document.removeEventListener('mouseleave', hide);
+      document.removeEventListener('mouseenter', show);
     };
   }, [tick]);
 
   if (!mounted) return null;
 
-  const cfg   = CONFIGS[variant];
-  const fg    = isDark ? '#FFFFFF' : '#0A0A0A';
-  const bg    = isDark ? '#FFFFFF' : '#0A0A0A';
-  const lbl   = isDark ? '#0A0A0A' : '#FFFFFF';
-  const cm    = clicking ? 0.86 : 1;
+  const cfg = CONFIGS[variant];
+  const fg  = isDark ? '#FFFFFF' : '#0A0A0A';
+  const bg  = isDark ? '#FFFFFF' : '#0A0A0A';
+  const lbl = isDark ? '#0A0A0A' : '#FFFFFF';
+  const cm  = clicking ? 0.86 : 1;
 
   return (
     <>
-      {/* ── Dot — instant, sticks to cursor ───────────────────────────────── */}
+      {/* Dot — sticks to cursor via direct DOM transform */}
       <div
-        ref={dotRef}
+        ref={dotWrapRef}
         aria-hidden
-        style={{ position: 'fixed', top: 0, left: 0, zIndex: 9999, pointerEvents: 'none', willChange: 'transform' }}
+        style={{
+          position: 'fixed', top: 0, left: 0, zIndex: 9999,
+          pointerEvents: 'none', willChange: 'transform',
+          opacity: 0,
+        }}
       >
         <motion.div
           animate={{
             width:           cfg.dotSize * cm,
             height:          cfg.dotSize * cm,
             backgroundColor: fg,
-            opacity:         isVisible && cfg.dotSize > 0 ? 1 : 0,
+            opacity:         cfg.dotSize > 0 ? 1 : 0,
           }}
           transition={SPRING_FAST}
           style={{ borderRadius: '50%' }}
         />
       </div>
 
-      {/* ── Ring — spring-lagged follower ─────────────────────────────────── */}
+      {/* Ring — lagged follower via RAF loop */}
       <div
-        ref={ringRef}
+        ref={ringWrapRef}
         aria-hidden
-        style={{ position: 'fixed', top: 0, left: 0, zIndex: 9998, pointerEvents: 'none', willChange: 'transform' }}
+        style={{
+          position: 'fixed', top: 0, left: 0, zIndex: 9998,
+          pointerEvents: 'none', willChange: 'transform',
+          opacity: 0,
+        }}
       >
         <motion.div
           animate={{
@@ -168,7 +199,7 @@ export function CustomCursor() {
             borderWidth:     cfg.ringFilled ? 0 : cfg.borderWidth,
             borderColor:     fg,
             backgroundColor: cfg.ringFilled ? bg : 'transparent',
-            opacity:         isVisible && cfg.ringSize > 0 ? 1 : 0,
+            opacity:         cfg.ringSize > 0 ? 1 : 0,
           }}
           transition={SPRING_RING}
           style={{
@@ -187,26 +218,21 @@ export function CustomCursor() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.65 }}
                 transition={{ duration: 0.16, ease: EASE }}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  userSelect: 'none',
-                }}
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', userSelect: 'none' }}
               >
                 {cfg.label === 'DRAG' ? (
                   <DragArrows color={lbl} />
                 ) : (
                   <span
                     style={{
-                      color:          lbl,
-                      fontSize:       cfg.label.length > 4 ? 8 : 9.5,
-                      letterSpacing:  '0.14em',
-                      fontWeight:     800,
-                      fontFamily:     'Satoshi, system-ui, sans-serif',
-                      textTransform:  'uppercase',
-                      whiteSpace:     'nowrap',
-                      lineHeight:     1,
+                      color:         lbl,
+                      fontSize:      cfg.label.length > 4 ? 8 : 9.5,
+                      letterSpacing: '0.14em',
+                      fontWeight:    800,
+                      fontFamily:    'Satoshi, system-ui, sans-serif',
+                      textTransform: 'uppercase',
+                      whiteSpace:    'nowrap',
+                      lineHeight:    1,
                     }}
                   >
                     {cfg.label}
