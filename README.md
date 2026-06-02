@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Cybersage — Personal Portfolio
 
-## Getting Started
+> **Live site:** [cybersage.dev](https://cybersage.dev)
 
-First, run the development server:
+A bespoke, custom-built portfolio for **Donrington** — designed and engineered from the ground up. Not a template. Not a theme.
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | Next.js (App Router) |
+| Styling | Tailwind CSS |
+| Animations | Framer Motion |
+| Language | TypeScript |
+| Deployment | Vercel |
+| Images | Next.js Image + Sharp |
+| OG Images | Dynamic via `opengraph-image.tsx` |
+
+---
+
+## Architecture Highlights
+
+- **Custom cursor system** — hardware-accelerated, zero React re-renders on pointer move
+- **Dynamic OG image generation** — server-side rendered per-route with base64 logo embedding
+- **App Router** — full Next.js App Router with layout-level metadata and streaming
+- **SEO-first** — structured metadata, canonical URLs, sitemap, robots.txt
+
+---
+
+## Running Locally
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Intellectual Property Notice
 
-## Learn More
+This repository is **public for learning purposes only.**
 
-To learn more about Next.js, take a look at the following resources:
+### What you CAN do
+- Study the architecture, patterns, and implementation techniques
+- Reference specific solutions (cursor system, OG image setup, etc.) in your own **original** work
+- Fork to experiment privately
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### What you CANNOT do
+- Copy or reproduce the visual design, layout, or aesthetic as your own portfolio or commercial product
+- Use the **Cybersage** name, logo, wordmark, or any brand asset
+- Deploy a copy of this site and represent it as your own original work
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The source code is licensed under **MIT** (see [LICENSE](./LICENSE)) — which governs the code logic. The design, brand assets, and overall visual identity are **all rights reserved** and are explicitly excluded from that license.
 
-## Deploy on Vercel
+If you're unsure whether a specific use is acceptable, open an issue and ask.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Acknowledgements
+
+Built with [Next.js](https://nextjs.org), [Tailwind CSS](https://tailwindcss.com), and [Framer Motion](https://www.framer.com/motion/).
+
+---
+
+© 2026 Donrington · [cybersage.dev](https://cybersage.dev)
