@@ -171,108 +171,150 @@ const EXPERIENCE = [
   },
 ];
 
-/* ── Mobile card (vertical scroll) ──────────────────────────────────────── */
+const S = {
+  label: {
+    fontFamily: 'Satoshi, system-ui, sans-serif',
+    fontSize: '0.5rem',
+    letterSpacing: '0.3em',
+    textTransform: 'uppercase' as const,
+    fontWeight: 600,
+  },
+  micro: {
+    fontFamily: 'Satoshi, system-ui, sans-serif',
+    fontSize: '0.48rem',
+    letterSpacing: '0.25em',
+    textTransform: 'uppercase' as const,
+    fontWeight: 500,
+  },
+};
+
+/* ── Mobile card ──────────────────────────────────────────────────── */
 function MobileCard({ exp, index }: { exp: (typeof EXPERIENCE)[0]; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: '-6%' });
+  const inView = useInView(ref, { once: true, margin: '-8%' });
   const num = String(index + 1).padStart(2, '0');
 
   return (
     <motion.div
       ref={ref}
-      className="border-b border-black/8 py-10 px-6"
-      initial={{ opacity: 0, y: 24 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.7, ease: EASE }}
+      className="relative border-b border-black/8"
+      style={{ padding: 'clamp(2.5rem,8vw,4.5rem) clamp(1.5rem,6vw,3rem)' }}
     >
-      {/* Top row: num + type */}
-      <div className="flex items-center justify-between mb-4">
-        <span
-          className="text-[0.55rem] tracking-[0.24em] uppercase text-black/30 font-medium"
-          style={{ fontFamily: 'Satoshi, system-ui, sans-serif' }}
-        >
-          {num}
-        </span>
-        <span
-          className="text-[0.55rem] tracking-[0.18em] uppercase text-black/28 font-medium"
-          style={{ fontFamily: 'Satoshi, system-ui, sans-serif' }}
-        >
-          {exp.type}
-        </span>
-      </div>
+      {/* Meta */}
+      <motion.div
+        className="flex items-center justify-between mb-8"
+        initial={{ opacity: 0, y: 8 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.55, ease: EASE }}
+      >
+        <span style={{ ...S.label, color: 'rgba(10,10,10,0.28)' }}>{num}</span>
+        <span style={{ ...S.micro, color: 'rgba(10,10,10,0.22)' }}>{exp.type}</span>
+      </motion.div>
 
       {/* Year */}
-      <div
-        className="leading-none select-none mb-6"
+      <motion.div
+        className="leading-none select-none"
         style={{
           fontFamily: 'var(--font-instrument), Georgia, serif',
           fontStyle: 'italic',
           fontWeight: 400,
-          fontSize: 'clamp(5rem, 22vw, 9rem)',
-          color: 'rgba(10,10,10,0.35)',
-          letterSpacing: '-0.04em',
+          fontSize: 'clamp(5.5rem,27vw,11rem)',
+          color: 'rgba(10,10,10,0.065)',
+          letterSpacing: '-0.045em',
+          lineHeight: 0.85,
+          marginBottom: '1.25rem',
         }}
+        initial={{ opacity: 0, x: -24 }}
+        animate={inView ? { opacity: 1, x: 0 } : {}}
+        transition={{ duration: 0.9, ease: EASE, delay: 0.05 }}
       >
         {exp.year}
-      </div>
+      </motion.div>
 
-      {/* Divider */}
-      <div className="w-full h-px bg-black/10 mb-6" />
+      {/* Hairline */}
+      <motion.div
+        style={{ height: '1px', background: 'rgba(10,10,10,0.1)', marginBottom: '1.5rem', transformOrigin: 'left' }}
+        initial={{ scaleX: 0 }}
+        animate={inView ? { scaleX: 1 } : {}}
+        transition={{ duration: 0.85, ease: EASE, delay: 0.12 }}
+      />
 
-      {/* Role + company */}
-      <div className="mb-5">
-        <h3
-          className="font-black text-black tracking-[-0.03em] leading-tight mb-2"
+      {/* Company */}
+      <motion.p
+        style={{ fontFamily: 'Satoshi, system-ui, sans-serif', fontSize: '0.6rem', letterSpacing: '0.36em', textTransform: 'uppercase', color: 'rgba(10,10,10,0.42)', fontWeight: 700, marginBottom: '0.65rem' }}
+        initial={{ opacity: 0 }}
+        animate={inView ? { opacity: 1 } : {}}
+        transition={{ duration: 0.5, delay: 0.2 }}
+      >
+        {exp.company}
+      </motion.p>
+
+      {/* Role — clip reveal */}
+      <div style={{ overflow: 'hidden', marginBottom: '1.75rem' }}>
+        <motion.h3
           style={{
             fontFamily: 'Satoshi, system-ui, sans-serif',
             fontWeight: 900,
-            fontSize: 'clamp(1.7rem, 7vw, 2.6rem)',
+            fontSize: 'clamp(1.9rem,9vw,3.2rem)',
+            color: 'rgba(10,10,10,0.92)',
+            letterSpacing: '-0.04em',
+            lineHeight: 0.95,
           }}
+          initial={{ y: '106%' }}
+          animate={inView ? { y: 0 } : {}}
+          transition={{ duration: 0.75, ease: EASE, delay: 0.18 }}
         >
           {exp.role}
-        </h3>
-        <p
-          className="text-[0.72rem] tracking-[0.22em] uppercase text-black/50 font-bold"
-          style={{ fontFamily: 'Satoshi, system-ui, sans-serif' }}
-        >
-          {exp.company}
-        </p>
+        </motion.h3>
       </div>
 
-      {/* Description */}
-      <ul className="mb-6 flex flex-col gap-2.5">
+      {/* Bullets */}
+      <ul style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '1.75rem' }}>
         {exp.bullets.map((b, i) => (
-          <li
+          <motion.li
             key={i}
-            className="flex gap-2.5 text-black/70 leading-relaxed font-semibold"
-            style={{
-              fontFamily: 'Satoshi, system-ui, sans-serif',
-              fontSize: 'clamp(0.88rem, 3vw, 1rem)',
-            }}
+            style={{ display: 'flex', gap: '0.65rem', fontFamily: 'Satoshi, system-ui, sans-serif', fontSize: 'clamp(0.84rem,3.2vw,0.94rem)', color: 'rgba(10,10,10,0.62)', fontWeight: 500, lineHeight: 1.65 }}
+            initial={{ opacity: 0, x: -12 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.5, ease: EASE, delay: 0.3 + i * 0.07 }}
           >
-            <span className="mt-[0.45em] w-1 h-1 rounded-full bg-black/30 shrink-0" />
+            <span style={{ marginTop: '0.6em', width: '3px', height: '3px', borderRadius: '50%', background: 'rgba(10,10,10,0.22)', flexShrink: 0 }} />
             {b}
-          </li>
+          </motion.li>
         ))}
       </ul>
 
-      {/* Stack badges */}
-      <div className="flex flex-wrap gap-2">
+      {/* Stack */}
+      <motion.div
+        style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}
+        initial={{ opacity: 0 }}
+        animate={inView ? { opacity: 1 } : {}}
+        transition={{ duration: 0.5, delay: 0.48 }}
+      >
         {exp.stack.map((t) => (
           <span
             key={t}
-            className="border border-black/20 bg-black/5 text-black/60 text-[0.65rem] tracking-widest uppercase font-semibold px-3 py-1.5"
-            style={{ fontFamily: 'Satoshi, system-ui, sans-serif' }}
+            style={{
+              border: '1px solid rgba(10,10,10,0.14)',
+              background: 'rgba(10,10,10,0.025)',
+              color: 'rgba(10,10,10,0.48)',
+              fontFamily: 'Satoshi, system-ui, sans-serif',
+              fontSize: '0.6rem',
+              letterSpacing: '0.18em',
+              textTransform: 'uppercase',
+              fontWeight: 600,
+              padding: '0.35rem 0.75rem',
+            }}
           >
             {t}
           </span>
         ))}
-      </div>
+      </motion.div>
     </motion.div>
   );
 }
 
-/* ── Desktop panel (horizontal scroll) ──────────────────────────────────── */
+/* ── Desktop panel ────────────────────────────────────────────────── */
 function DesktopPanel({
   exp,
   index,
@@ -287,96 +329,104 @@ function DesktopPanel({
 
   return (
     <div
-      className="relative shrink-0 h-full flex flex-col justify-between border-r border-black/8"
-      style={{ width: '100vw', padding: 'clamp(2rem,4vw,4.5rem) clamp(2rem,5vw,5rem)' }}
+      data-panel-index={index}
+      className="panel relative shrink-0 h-full flex flex-col border-r border-black/6"
+      style={{ width: '100vw', padding: 'clamp(2rem,3.5vw,4.5rem) clamp(2.5rem,5vw,6rem)' }}
     >
       {/* Top row */}
-      <div className="flex items-center justify-between">
-        <span
-          className="text-[0.55rem] tracking-[0.24em] uppercase text-black/30 font-medium"
-          style={{ fontFamily: 'Satoshi, system-ui, sans-serif' }}
-        >
-          {num} · {exp.type}
+      <div
+        className="panel-top flex items-center justify-between shrink-0 pb-4"
+        style={{ borderBottom: '1px solid rgba(10,10,10,0.07)' }}
+      >
+        <span style={{ ...S.label, color: 'rgba(10,10,10,0.25)' }}>
+          {num}&nbsp;·&nbsp;{exp.type}
         </span>
-        <span
-          className="text-[0.55rem] tracking-[0.18em] uppercase text-black/20 font-medium tabular-nums"
-          style={{ fontFamily: 'Satoshi, system-ui, sans-serif' }}
-        >
-          {num} / {tot}
+        <span style={{ ...S.micro, color: 'rgba(10,10,10,0.16)', fontVariantNumeric: 'tabular-nums' }}>
+          {num}&nbsp;/&nbsp;{tot}
         </span>
       </div>
 
-      {/* Center: year + rule + content */}
-      <div className="flex items-stretch flex-1 mt-8 mb-8 gap-0">
+      {/* Middle — fills remaining height */}
+      <div className="flex items-stretch flex-1 mt-10 mb-10">
         {/* Year */}
         <div
           className="flex items-center shrink-0"
-          style={{ width: 'clamp(220px, 32vw, 480px)' }}
+          style={{ width: 'clamp(220px,36vw,520px)' }}
         >
           <span
+            className="panel-year block leading-none select-none"
             style={{
               fontFamily: 'var(--font-instrument), Georgia, serif',
               fontStyle: 'italic',
               fontWeight: 400,
-              fontSize: 'clamp(6rem, 14vw, 18rem)',
-              color: 'rgba(10,10,10,0.38)',
-              letterSpacing: '-0.04em',
-              lineHeight: 1,
-              userSelect: 'none',
+              fontSize: 'clamp(7rem,18vw,24rem)',
+              color: 'rgba(10,10,10,0.07)',
+              letterSpacing: '-0.045em',
+              lineHeight: 0.85,
             }}
           >
             {exp.year}
           </span>
         </div>
 
-        {/* Vertical rule */}
-        <div className="w-px bg-black/12 self-stretch mx-[clamp(2rem,3.5vw,4rem)] shrink-0" />
+        {/* Vertical divider */}
+        <div
+          className="panel-divider w-px bg-black/10 self-stretch shrink-0"
+          style={{ margin: '0 clamp(2rem,4vw,5.5rem)' }}
+        />
 
         {/* Content */}
-        <div className="flex flex-col justify-center gap-6 flex-1 min-w-0 max-w-2xl">
-          <div className="flex flex-col gap-3">
-            <h3
-              style={{
-                fontFamily: 'Satoshi, system-ui, sans-serif',
-                fontWeight: 900,
-                fontSize: 'clamp(2rem, 3.8vw, 4.5rem)',
-                color: 'rgba(10,10,10,0.92)',
-                letterSpacing: '-0.035em',
-                lineHeight: 1.02,
-              }}
-            >
-              {exp.role}
-            </h3>
-            <p
-              className="text-[0.75rem] tracking-[0.24em] uppercase text-black/55 font-bold"
-              style={{ fontFamily: 'Satoshi, system-ui, sans-serif' }}
-            >
-              {exp.company}
-            </p>
-          </div>
+        <div className="flex flex-col justify-center gap-7 flex-1 min-w-0" style={{ maxWidth: '52ch' }}>
+          <p
+            className="panel-company"
+            style={{ fontFamily: 'Satoshi, system-ui, sans-serif', fontSize: '0.62rem', letterSpacing: '0.38em', textTransform: 'uppercase', color: 'rgba(10,10,10,0.42)', fontWeight: 700 }}
+          >
+            {exp.company}
+          </p>
 
-          <ul className="flex flex-col gap-2" style={{ maxWidth: '54ch' }}>
+          <h3
+            className="panel-role"
+            style={{
+              fontFamily: 'Satoshi, system-ui, sans-serif',
+              fontWeight: 900,
+              fontSize: 'clamp(2.2rem,4.5vw,5.8rem)',
+              color: 'rgba(10,10,10,0.92)',
+              letterSpacing: '-0.042em',
+              lineHeight: 0.93,
+            }}
+          >
+            {exp.role}
+          </h3>
+
+          <ul className="panel-bullets flex flex-col gap-2.5">
             {exp.bullets.map((b, i) => (
               <li
                 key={i}
-                className="flex gap-2.5 text-black/72 leading-relaxed font-semibold"
-                style={{
-                  fontFamily: 'Satoshi, system-ui, sans-serif',
-                  fontSize: 'clamp(0.85rem, 1.1vw, 1rem)',
-                }}
+                className="flex gap-3 leading-relaxed"
+                style={{ fontFamily: 'Satoshi, system-ui, sans-serif', fontSize: 'clamp(0.82rem,1vw,0.95rem)', color: 'rgba(10,10,10,0.62)', fontWeight: 500 }}
               >
-                <span className="mt-[0.5em] w-1 h-1 rounded-full bg-black/30 shrink-0" />
+                <span style={{ marginTop: '0.55em', width: '3px', height: '3px', borderRadius: '50%', background: 'rgba(10,10,10,0.22)', flexShrink: 0 }} />
                 {b}
               </li>
             ))}
           </ul>
 
-          <div className="flex flex-wrap gap-2">
+          <div className="panel-stack flex flex-wrap gap-2">
             {exp.stack.map((t) => (
               <span
                 key={t}
-                className="border border-black/20 bg-black/5 text-black/60 text-[0.65rem] tracking-widest uppercase font-semibold px-3 py-1.5"
-                style={{ fontFamily: 'Satoshi, system-ui, sans-serif' }}
+                className="transition-all duration-300 hover:bg-black hover:text-white hover:border-black cursor-default"
+                style={{
+                  border: '1px solid rgba(10,10,10,0.15)',
+                  background: 'rgba(10,10,10,0.03)',
+                  color: 'rgba(10,10,10,0.48)',
+                  fontFamily: 'Satoshi, system-ui, sans-serif',
+                  fontSize: '0.6rem',
+                  letterSpacing: '0.18em',
+                  textTransform: 'uppercase',
+                  fontWeight: 600,
+                  padding: '0.35rem 0.75rem',
+                }}
               >
                 {t}
               </span>
@@ -384,30 +434,21 @@ function DesktopPanel({
           </div>
         </div>
       </div>
-
-      {/* Bottom scroll hint — first panel only */}
-      {index === 0 && (
-        <p
-          className="text-[0.52rem] tracking-[0.2em] uppercase text-black/22 font-medium"
-          style={{ fontFamily: 'Satoshi, system-ui, sans-serif' }}
-        >
-          Scroll to explore →
-        </p>
-      )}
     </div>
   );
 }
 
-/* ── Section ──────────────────────────────────────────────────────────────── */
+/* ── Section ──────────────────────────────────────────────────────── */
 export function Experience() {
-  const sectionRef    = useRef<HTMLElement>(null);
-  const pinRef        = useRef<HTMLDivElement>(null);
-  const trackRef      = useRef<HTMLDivElement>(null);
-  const progressRef   = useRef<HTMLDivElement>(null);
+  const sectionRef  = useRef<HTMLElement>(null);
+  const pinRef      = useRef<HTMLDivElement>(null);
+  const trackRef    = useRef<HTMLDivElement>(null);
+  const progressRef = useRef<HTMLDivElement>(null);
+  const labelRef    = useRef<HTMLSpanElement>(null);
   const sectionInView = useInView(sectionRef, { once: true, margin: '-12%' });
 
   useEffect(() => {
-    if (window.innerWidth < 1024) return; // desktop only
+    if (window.innerWidth < 1024) return;
 
     const pin      = pinRef.current;
     const track    = trackRef.current;
@@ -415,22 +456,41 @@ export function Experience() {
     if (!pin || !track) return;
 
     const ctx = gsap.context(() => {
-      const getEnd = () => `+=${track.scrollWidth - window.innerWidth}`;
+      const getScrollDist = () => track.scrollWidth - window.innerWidth;
 
-      gsap.to(track, {
-        x: () => -(track.scrollWidth - window.innerWidth),
+      /* ── Main horizontal tween ── */
+      const scrollAnim = gsap.to(track, {
+        x: () => -getScrollDist(),
         ease: 'none',
         scrollTrigger: {
           trigger: pin,
           start: 'top top',
-          end: getEnd,
-          scrub: 1.2,
+          end: () => `+=${getScrollDist()}`,
+          scrub: 1,
           pin: true,
           anticipatePin: 1,
           invalidateOnRefresh: true,
+          onUpdate(self) {
+            /* Velocity skew */
+            const vel = self.getVelocity();
+            gsap.to(track, {
+              skewX: gsap.utils.clamp(-4, 4, vel * 0.00045),
+              duration: 0.55,
+              ease: 'power3.out',
+              overwrite: 'auto',
+            });
+
+            /* Live panel label */
+            const idx = Math.min(EXPERIENCE.length - 1, Math.floor(self.progress * EXPERIENCE.length));
+            if (labelRef.current) {
+              labelRef.current.textContent =
+                `${String(idx + 1).padStart(2, '0')} · ${EXPERIENCE[idx].role} · ${EXPERIENCE[idx].company}`;
+            }
+          },
         },
       });
 
+      /* ── Progress bar ── */
       if (progress) {
         gsap.to(progress, {
           scaleX: 1,
@@ -438,24 +498,62 @@ export function Experience() {
           scrollTrigger: {
             trigger: pin,
             start: 'top top',
-            end: getEnd,
-            scrub: 1.2,
+            end: () => `+=${getScrollDist()}`,
+            scrub: 1,
             invalidateOnRefresh: true,
           },
         });
       }
+
+      /* ── Per-panel reveal animations ── */
+      const panels = Array.from(track.querySelectorAll('.panel'));
+
+      panels.forEach((panel, i) => {
+        const year    = panel.querySelector('.panel-year');
+        const divider = panel.querySelector('.panel-divider');
+        const company = panel.querySelector('.panel-company');
+        const role    = panel.querySelector('.panel-role');
+        const bullets = Array.from(panel.querySelectorAll('.panel-bullets li'));
+        const stack   = panel.querySelector('.panel-stack');
+        const topRow  = panel.querySelector('.panel-top');
+
+        if (!year || !divider || !company || !role || !stack || !topRow) return;
+
+        /* Set hidden initial state */
+        gsap.set(topRow,   { opacity: 0, y: -10 });
+        gsap.set(year,     { opacity: 0, x: -40 });
+        gsap.set(divider,  { scaleY: 0, transformOrigin: 'top center' });
+        gsap.set(company,  { opacity: 0, y: 10 });
+        gsap.set(role,     { opacity: 0, y: 28 });
+        gsap.set(bullets,  { opacity: 0, x: -12 });
+        gsap.set(stack,    { opacity: 0, y: 10 });
+
+        const stConfig = i === 0
+          ? { trigger: pin,                  start: 'top 80%',  toggleActions: 'play none none none' }
+          : { trigger: panel as Element, containerAnimation: scrollAnim, start: 'left 90%', toggleActions: 'play none none none' };
+
+        const tl = gsap.timeline({ scrollTrigger: stConfig, defaults: { ease: 'power3.out' } });
+        tl.to(topRow,  { opacity: 1, y: 0,  duration: 0.5 })
+          .to(year,    { opacity: 1, x: 0,  duration: 0.95 }, '-=0.35')
+          .to(divider, { scaleY: 1,         duration: 0.8  }, '-=0.7')
+          .to(company, { opacity: 1, y: 0,  duration: 0.45 }, '-=0.45')
+          .to(role,    { opacity: 1, y: 0,  duration: 0.75 }, '-=0.3')
+          .to(bullets, { opacity: 1, x: 0,  duration: 0.5, stagger: 0.07 }, '-=0.45')
+          .to(stack,   { opacity: 1, y: 0,  duration: 0.4  }, '-=0.25');
+      });
+
     }, sectionRef);
 
     return () => ctx.revert();
   }, []);
 
-  /* Shared section header */
+  /* ── Shared header ── */
   const Header = (
     <div className="px-[clamp(1.25rem,5vw,5rem)] pt-[clamp(4rem,8vw,10rem)] pb-[clamp(2rem,4vw,4rem)]">
       <div className="flex items-center gap-4 mb-[clamp(2rem,4vw,4rem)]">
         <motion.span
-          className="text-[0.6rem] tracking-[0.22em] uppercase text-black/30 font-medium shrink-0"
-          style={{ fontFamily: 'Satoshi, system-ui, sans-serif' }}
+          style={{ fontFamily: 'Satoshi, system-ui, sans-serif', fontSize: '0.6rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(10,10,10,0.3)', fontWeight: 500 }}
+          className="shrink-0"
           initial={{ opacity: 0, x: -16 }}
           animate={sectionInView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.6, ease: EASE }}
@@ -464,19 +562,15 @@ export function Experience() {
         </motion.span>
         <motion.div
           className="flex-1 h-px bg-black/10"
-          initial={{ scaleX: 0, transformOrigin: 'left' }}
+          style={{ transformOrigin: 'left' }}
+          initial={{ scaleX: 0 }}
           animate={sectionInView ? { scaleX: 1 } : {}}
           transition={{ duration: 1.4, delay: 0.15, ease: EASE }}
         />
       </div>
 
       <h2
-        className="font-black text-black tracking-[-0.04em] leading-[0.9]"
-        style={{
-          fontFamily: 'Satoshi, system-ui, sans-serif',
-          fontWeight: 900,
-          fontSize: 'clamp(2.4rem, 7vw, 8rem)',
-        }}
+        style={{ fontFamily: 'Satoshi, system-ui, sans-serif', fontWeight: 900, fontSize: 'clamp(2.4rem,7vw,8rem)', letterSpacing: '-0.04em', lineHeight: 0.9 }}
       >
         {(['Where', "I've"] as const).map((word, i) => (
           <span key={word} className="inline-block overflow-hidden mr-[0.22em]">
@@ -494,12 +588,7 @@ export function Experience() {
         <span className="inline-block overflow-hidden">
           <motion.span
             className="block"
-            style={{
-              fontFamily: 'var(--font-instrument), Georgia, serif',
-              fontStyle: 'italic',
-              fontWeight: 400,
-              color: 'rgba(10,10,10,0.28)',
-            }}
+            style={{ fontFamily: 'var(--font-instrument), Georgia, serif', fontStyle: 'italic', fontWeight: 400, color: 'rgba(10,10,10,0.28)' }}
             initial={{ y: '110%' }}
             animate={sectionInView ? { y: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.28, ease: EASE }}
@@ -512,14 +601,10 @@ export function Experience() {
   );
 
   return (
-    <section
-      ref={sectionRef}
-      id="experience"
-      className="w-full border-t border-black/8"
-    >
-      {/* ── Mobile layout (< lg) ─────────────────────────────────────────── */}
+    <section ref={sectionRef} id="experience" className="w-full border-t border-black/8">
+
+      {/* ── Mobile (< lg) ─────────────────────────────────────────── */}
       <div className="block lg:hidden relative overflow-hidden">
-        {/* Video bg */}
         <video
           autoPlay muted loop playsInline preload="auto"
           poster="/ex_poster.jpg"
@@ -527,8 +612,7 @@ export function Experience() {
         >
           <source src="/ex_video_opt.mp4" type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-white/78 z-1 pointer-events-none" />
-
+        <div className="absolute inset-0 z-1 pointer-events-none" style={{ background: 'rgba(255,255,255,0.82)' }} />
         <div className="relative z-10">
           {Header}
           <div>
@@ -539,50 +623,60 @@ export function Experience() {
         </div>
       </div>
 
-      {/* ── Desktop layout (≥ lg) ────────────────────────────────────────── */}
+      {/* ── Desktop (≥ lg) ────────────────────────────────────────── */}
       <div className="hidden lg:block">
-        {/* Header sits above the pin — plain white bg */}
-        <div className="bg-white">
-          {Header}
-        </div>
+        {/* Header above the pin — plain white */}
+        <div className="bg-white">{Header}</div>
 
         {/* Pinned horizontal scroll */}
         <div ref={pinRef} data-cursor="drag" className="h-screen overflow-hidden relative">
-          {/* Video bg — pinned with content */}
+          {/* Video */}
           <video
             autoPlay muted loop playsInline
             className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
           >
             <source src="/ex_video_opt.mp4" type="video/mp4" />
           </video>
-          <div className="absolute inset-0 bg-white/72 z-1 pointer-events-none" />
+          <div className="absolute inset-0 z-1 pointer-events-none" style={{ background: 'rgba(255,255,255,0.74)' }} />
 
-          {/* Progress bar */}
-          <div className="absolute top-0 left-0 right-0 h-px bg-black/8 z-20 pointer-events-none">
+          {/* Top progress bar */}
+          <div className="absolute top-0 left-0 right-0 h-px z-20 pointer-events-none" style={{ background: 'rgba(10,10,10,0.07)' }}>
             <div
               ref={progressRef}
-              className="h-full bg-black/40 origin-left"
-              style={{ transform: 'scaleX(0)' }}
+              className="h-full origin-left"
+              style={{ transform: 'scaleX(0)', background: 'rgba(10,10,10,0.4)' }}
             />
           </div>
 
-          {/* Track */}
+          {/* Bottom label strip */}
+          <div
+            className="absolute bottom-0 left-0 right-0 z-20 pointer-events-none flex items-center justify-between"
+            style={{
+              borderTop: '1px solid rgba(10,10,10,0.07)',
+              padding: 'clamp(0.75rem,1.4vw,1.1rem) clamp(2.5rem,5vw,6rem)',
+            }}
+          >
+            <span ref={labelRef} style={{ ...S.label, color: 'rgba(10,10,10,0.25)' }}>
+              01 · Full Stack Developer · Recoverderm
+            </span>
+            <span style={{ ...S.micro, color: 'rgba(10,10,10,0.18)' }}>
+              ← Drag to navigate →
+            </span>
+          </div>
+
+          {/* Scrolling track */}
           <div
             ref={trackRef}
             className="relative z-10 flex h-full"
-            style={{ width: `${EXPERIENCE.length * 100}vw` }}
+            style={{ width: `${EXPERIENCE.length * 100}vw`, willChange: 'transform' }}
           >
             {EXPERIENCE.map((exp, i) => (
-              <DesktopPanel
-                key={i}
-                exp={exp}
-                index={i}
-                total={EXPERIENCE.length}
-              />
+              <DesktopPanel key={i} exp={exp} index={i} total={EXPERIENCE.length} />
             ))}
           </div>
         </div>
       </div>
+
     </section>
   );
 }
