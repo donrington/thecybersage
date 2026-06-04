@@ -325,15 +325,29 @@ export function Contact() {
       const split = new SplitText(el, { type: 'chars' });
       const chars = split.chars as HTMLElement[];
 
-      gsap.set(chars, { opacity: 0, y: -55, skewX: () => (Math.random() - 0.5) * 10 });
-
-      const tl = gsap.timeline({
-        scrollTrigger: { trigger: el, start: 'top 95%', toggleActions: 'play none none none' },
+      /*
+       * The span's text color is already rgba(255,255,255,0.032).
+       * Animating GSAP `opacity` would compound with that color alpha
+       * and make the text invisible. Instead, we set an explicit `color`
+       * on each char and animate THAT — leaving CSS opacity untouched.
+       */
+      gsap.set(chars, {
+        color: 'rgba(255,255,255,0)',
+        y: -40,
+        skewX: () => (Math.random() - 0.5) * 10,
       });
 
-      /* 1 — fly in bright */
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: el,
+          start: 'top bottom', // fire as soon as any part enters viewport
+          toggleActions: 'play none none none',
+        },
+      });
+
+      /* 1 — fly in with a bright flash */
       tl.to(chars, {
-        opacity: 0.22,
+        color: 'rgba(255,255,255,0.18)',
         y: 0,
         skewX: 0,
         duration: 1.6,
@@ -341,15 +355,15 @@ export function Contact() {
         ease: 'expo.out',
       });
 
-      /* 2 — settle to ghost */
+      /* 2 — settle to the original ghost opacity */
       tl.to(chars, {
-        opacity: 0.032,
+        color: 'rgba(255,255,255,0.032)',
         duration: 2,
         stagger: { amount: 0.4 },
         ease: 'power2.inOut',
       }, '-=0.7');
 
-      /* 3 — continuous idle float */
+      /* 3 — continuous idle float (y only — never touches color) */
       chars.forEach((char, i) => {
         gsap.to(char, {
           y: `${2 + Math.sin(i * 0.9) * 3}px`,
@@ -361,15 +375,15 @@ export function Contact() {
         });
       });
 
-      /* 4 — periodic glitch on a random character */
+      /* 4 — periodic glitch on a random character (color-based, not opacity) */
       const scheduleGlitch = (delay = 4200) => {
         glitchTimer = setTimeout(() => {
           if (!chars.length) return;
           const i = Math.floor(Math.random() * chars.length);
           gsap.timeline()
-            .to(chars[i], { opacity: 0.28, x: 3, skewX: 7, duration: 0.055 })
-            .to(chars[i], { opacity: 0.01, x: -2, skewX: -5, duration: 0.055 })
-            .to(chars[i], { opacity: 0.032, x: 0, skewX: 0, duration: 0.1 });
+            .to(chars[i], { color: 'rgba(255,255,255,0.28)', x: 3, skewX: 7, duration: 0.055 })
+            .to(chars[i], { color: 'rgba(255,255,255,0.01)', x: -2, skewX: -5, duration: 0.055 })
+            .to(chars[i], { color: 'rgba(255,255,255,0.032)', x: 0, skewX: 0, duration: 0.1 });
           scheduleGlitch(1500 + Math.random() * 3000);
         }, delay);
       };
