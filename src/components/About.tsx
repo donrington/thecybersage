@@ -12,7 +12,7 @@ const STATS = [
   { label: 'Years of Experience', target: 5,   suffix: '+' },
   { label: 'Projects Shipped',    target: 50,  suffix: '+' },
   { label: 'Global Clients',      target: 40, suffix: '+' },
-  { label: 'Countries Served',    target: 3,   suffix: ''  },
+  { label: 'Countries Served',    target: 8,   suffix: ''  },
 ];
 
 const QUOTE_WORDS = [

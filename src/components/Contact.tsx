@@ -641,14 +641,39 @@ export function Contact() {
                 href="https://websitelaunches.com/site/cybersage.dev"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="opacity-35 hover:opacity-65 transition-opacity duration-300 block"
+                className="group inline-flex items-center gap-3 border border-white/10 px-4 py-3 hover:border-white/22 transition-all duration-300"
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="https://websitelaunches.com/badge/cybersage.dev.svg"
-                  alt="Established online - Public launch record"
-                  width={153}
-                  height={33}
+                <span className="w-1.5 h-1.5 rounded-full bg-white/22 group-hover:bg-white/50 shrink-0 transition-colors duration-300" />
+                <div className="flex flex-col gap-[3px]">
+                  <span
+                    style={{
+                      fontFamily: 'Satoshi, system-ui, sans-serif',
+                      fontSize: '0.52rem',
+                      letterSpacing: '0.28em',
+                      textTransform: 'uppercase',
+                      color: 'rgba(255,255,255,0.35)',
+                      fontWeight: 600,
+                    }}
+                    className="group-hover:text-white/58 transition-colors duration-300"
+                  >
+                    Established Online
+                  </span>
+                  <span
+                    style={{
+                      fontFamily: 'Satoshi, system-ui, sans-serif',
+                      fontSize: '0.44rem',
+                      letterSpacing: '0.18em',
+                      textTransform: 'uppercase',
+                      color: 'rgba(255,255,255,0.16)',
+                      fontWeight: 500,
+                    }}
+                  >
+                    Public launch record
+                  </span>
+                </div>
+                <ArrowUpRight
+                  size={9}
+                  className="text-white/18 group-hover:text-white/45 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-200 shrink-0"
                 />
               </a>
             </motion.div>
