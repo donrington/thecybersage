@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Instrument_Serif } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/next';
 import './globals.css';
@@ -107,6 +107,15 @@ export const metadata: Metadata = {
     description:
       '5+ years building high-performance web systems. Next.js · React · Django · Go · PostgreSQL · AWS. Available for hire — remote, worldwide.',
     locale: 'en_US',
+    images: [
+      {
+        url: `${BASE_URL}/cybersage_og.png`,
+        width: 1200,
+        height: 630,
+        alt: 'Abakwe Carrington — Full Stack Engineer & Web Developer',
+        type: 'image/png',
+      },
+    ],
   },
 
   twitter: {
@@ -116,6 +125,7 @@ export const metadata: Metadata = {
     title: 'Abakwe Carrington | Full Stack Engineer & Web Developer',
     description:
       '5+ years building production-grade web systems. Next.js · Django · Go · PostgreSQL · AWS. Available for hire worldwide.',
+    images: [`${BASE_URL}/cybersage_og.png`],
   },
 
   robots: {
@@ -153,6 +163,12 @@ export const metadata: Metadata = {
     'msapplication-TileColor': '#0A0A0A',
     'application-name': 'Cybersage',
   },
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: '#0A0A0A',
 };
 
 const personSchema = {
