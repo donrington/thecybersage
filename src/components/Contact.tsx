@@ -7,6 +7,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText } from 'gsap/SplitText';
 import { ArrowUpRight, X } from 'lucide-react';
 import Image from 'next/image';
+import { ContactCanvas } from './ContactCanvas';
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
@@ -104,7 +105,7 @@ function ContactModal({ onClose }: { onClose: () => void }) {
 
   return (
     <motion.div
-      className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-6"
+      className="fixed inset-0 z-100 flex items-end sm:items-center justify-center p-0 sm:p-6"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -301,8 +302,9 @@ function ContactModal({ onClose }: { onClose: () => void }) {
 
 /* ── Main section ─────────────────────────────────────────────────────────── */
 export function Contact() {
-  const sectionRef  = useRef<HTMLElement>(null);
-  const emailRef    = useRef<HTMLAnchorElement>(null);
+  const sectionRef   = useRef<HTMLElement>(null);
+  const emailRef     = useRef<HTMLAnchorElement>(null);
+  const wordmarkRef  = useRef<HTMLSpanElement>(null);
   const sectionInView = useInView(sectionRef, { once: true, margin: '-12%' });
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -312,6 +314,75 @@ export function Contact() {
     return () => window.removeEventListener('open-contact-modal', handler);
   }, []);
 
+  /* ── CYBERSAGE wordmark animation ── */
+  useEffect(() => {
+    const el = wordmarkRef.current;
+    if (!el) return;
+
+    let glitchTimer: ReturnType<typeof setTimeout> | undefined;
+
+    const ctx = gsap.context(() => {
+      const split = new SplitText(el, { type: 'chars' });
+      const chars = split.chars as HTMLElement[];
+
+      gsap.set(chars, { opacity: 0, y: -55, skewX: () => (Math.random() - 0.5) * 10 });
+
+      const tl = gsap.timeline({
+        scrollTrigger: { trigger: el, start: 'top 95%', toggleActions: 'play none none none' },
+      });
+
+      /* 1 — fly in bright */
+      tl.to(chars, {
+        opacity: 0.22,
+        y: 0,
+        skewX: 0,
+        duration: 1.6,
+        stagger: { amount: 0.55, from: 'random' },
+        ease: 'expo.out',
+      });
+
+      /* 2 — settle to ghost */
+      tl.to(chars, {
+        opacity: 0.032,
+        duration: 2,
+        stagger: { amount: 0.4 },
+        ease: 'power2.inOut',
+      }, '-=0.7');
+
+      /* 3 — continuous idle float */
+      chars.forEach((char, i) => {
+        gsap.to(char, {
+          y: `${2 + Math.sin(i * 0.9) * 3}px`,
+          duration: 3.5 + i * 0.2,
+          ease: 'sine.inOut',
+          yoyo: true,
+          repeat: -1,
+          delay: i * 0.09,
+        });
+      });
+
+      /* 4 — periodic glitch on a random character */
+      const scheduleGlitch = (delay = 4200) => {
+        glitchTimer = setTimeout(() => {
+          if (!chars.length) return;
+          const i = Math.floor(Math.random() * chars.length);
+          gsap.timeline()
+            .to(chars[i], { opacity: 0.28, x: 3, skewX: 7, duration: 0.055 })
+            .to(chars[i], { opacity: 0.01, x: -2, skewX: -5, duration: 0.055 })
+            .to(chars[i], { opacity: 0.032, x: 0, skewX: 0, duration: 0.1 });
+          scheduleGlitch(1500 + Math.random() * 3000);
+        }, delay);
+      };
+      scheduleGlitch();
+    }, el);
+
+    return () => {
+      clearTimeout(glitchTimer);
+      ctx.revert();
+    };
+  }, []);
+
+  /* ── Email SplitText animation ── */
   useEffect(() => {
     if (!sectionRef.current || !emailRef.current) return;
     const ctx = gsap.context(() => {
@@ -337,9 +408,14 @@ export function Contact() {
         ref={sectionRef}
         id="contact"
         data-theme="dark"
-        className="w-full bg-[#0A0A0A] border-t border-white/6"
+        className="w-full bg-[#0A0A0A] border-t border-white/6 relative overflow-hidden"
       >
-        <div className="max-w-360 mx-auto px-[clamp(1.25rem,5vw,5rem)] pt-[clamp(5rem,10vw,11rem)] pb-0">
+        {/* Constellation background */}
+        <div className="absolute inset-0 pointer-events-none z-0" aria-hidden>
+          <ContactCanvas />
+        </div>
+
+        <div className="relative z-10 max-w-360 mx-auto px-[clamp(1.25rem,5vw,5rem)] pt-[clamp(5rem,10vw,11rem)] pb-0">
 
           {/* Section label */}
           <div className="flex items-center gap-4 mb-[clamp(3rem,6vw,8rem)]">
@@ -449,7 +525,7 @@ export function Contact() {
         </div>
 
         {/* ── Footer ──────────────────────────────────────────────────────── */}
-        <footer className="border-t border-white/6 mt-0 relative overflow-hidden">
+        <footer className="border-t border-white/6 mt-0 relative z-10 overflow-hidden">
 
           {/* Big background wordmark */}
           <div
@@ -457,6 +533,7 @@ export function Contact() {
             className="absolute bottom-0 left-0 right-0 pointer-events-none select-none flex justify-center items-end"
           >
             <span
+              ref={wordmarkRef}
               style={{
                 fontFamily: 'Satoshi, system-ui, sans-serif',
                 fontWeight: 900,
