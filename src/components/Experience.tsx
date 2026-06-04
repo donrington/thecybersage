@@ -219,7 +219,7 @@ function MobileCard({ exp, index }: { exp: (typeof EXPERIENCE)[0]; index: number
           fontStyle: 'italic',
           fontWeight: 400,
           fontSize: 'clamp(5.5rem,27vw,11rem)',
-          color: 'rgba(10,10,10,0.065)',
+          color: 'rgba(10,10,10,0.35)',
           letterSpacing: '-0.045em',
           lineHeight: 0.85,
           marginBottom: '1.25rem',
@@ -360,7 +360,7 @@ function DesktopPanel({
               fontStyle: 'italic',
               fontWeight: 400,
               fontSize: 'clamp(7rem,18vw,24rem)',
-              color: 'rgba(10,10,10,0.07)',
+              color: 'rgba(10,10,10,0.38)',
               letterSpacing: '-0.045em',
               lineHeight: 0.85,
             }}
