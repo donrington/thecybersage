@@ -50,10 +50,11 @@ const TESTIMONIALS: Testimonial[] = [
   {
     name: 'Halima',
     role: 'Executive Director',
-    company: 'Amanigo Travel Agency',
+    company: 'AmaniGo Travel',
     quote:
       'Cybersage delivered a top-notch CMS for our travel agency. It’s user-friendly and has genuinely enhanced our client engagement.',
     image: '/testimonial/amanigo.png',
+    logo: '/logo/amanigo.png',
     source: 'Client',
   },
   {
