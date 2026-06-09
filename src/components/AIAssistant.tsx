@@ -7,8 +7,8 @@ import { X, Send, Sparkles, ArrowUpRight } from 'lucide-react';
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 const SUGGESTIONS = [
-  { label: 'Available right now?',     query: 'Is Abakwe available to start a new project right now?' },
-  { label: 'How do you engage?',       query: 'How does Abakwe structure engagements — contract, rates, and timelines?' },
+  { label: 'Available right now?',     query: 'Is Carrington available to start a new project right now?' },
+  { label: 'How do you engage?',       query: 'How does Carrington structure engagements — contract, rates, and timelines?' },
   { label: 'Work in my timezone?',     query: 'Can he work remotely across my timezone, and how does he communicate?' },
   { label: 'Built something like X?',  query: 'Has he built something similar to what I need? What are his most relevant projects?' },
 ];
@@ -337,7 +337,7 @@ export function AIAssistant() {
                         marginTop: 2,
                       }}
                     >
-                      Ask anything about Abakwe
+                      Ask anything about Carrington
                     </p>
                   </div>
                 </div>
