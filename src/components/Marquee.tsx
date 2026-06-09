@@ -12,6 +12,7 @@ const CLIENTS = [
   { name: 'Rokeyla', logo: '/logo/RokeylaSecondaryLogoWhite.png' },
   { name: 'Samdus', logo: '/logo/samdus_white.png' },
   { name: 'Anoc', logo: '/logo/anoc.svg' },
+  { name: 'AmaniGo', logo: '/logo/amanigo.png' },
   { name: 'Chronos', logo: '/logo/chronos_logo_trans2.png' },
   { name: 'TechHub', logo: '/logo/techwhite.png' },
   { name: 'Chris Cleans', logo: '/logo/chris_con.png' },
