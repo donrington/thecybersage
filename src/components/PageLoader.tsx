@@ -33,25 +33,6 @@ export function PageLoader({ onDone }: { onDone: () => void }) {
       delay: 1.2,
     });
 
-    /* ── Count 0 → 100 over 2.6s ─────────────────────────────────────────── */
-    const DURATION = 2600;
-    const start    = performance.now();
-    let raf: number;
-    const tick = (now: number) => {
-      const t = Math.min((now - start) / DURATION, 1);
-      const e = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-      setCount(Math.round(e * 100));
-      if (t < 1) raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-
-    /* ── Progress line ───────────────────────────────────────────────────── */
-    gsap.to(lineRef.current, {
-      scaleX: 1,
-      duration: 2.6,
-      ease: 'power2.inOut',
-    });
-
     /* ── Dot pulse ───────────────────────────────────────────────────────── */
     gsap.to(dotRef.current, {
       opacity: 0.15,
@@ -61,33 +42,65 @@ export function PageLoader({ onDone }: { onDone: () => void }) {
       ease: 'power1.inOut',
     });
 
-    /* ── Exit sequence ───────────────────────────────────────────────────── */
-    const tl = gsap.timeline({
-      delay: 3.1,
-      onComplete: () => {
-        document.body.style.overflow = '';
-        onDone();
-      },
-    });
+    /*
+     * ── Readiness-driven progress (no fixed timer) ──────────────────────────
+     * Progress eases toward 90% while the page is still loading, then races to
+     * 100% the moment the window fires `load`. A short minimum floor prevents an
+     * ugly flash on fast connections; a fallback guarantees we never hang.
+     */
+    let raf = 0;
+    let current = 0;
+    let ready = document.readyState === 'complete';
+    let minElapsed = false;
+    let exiting = false;
 
-    tl.to([logoRef.current, countRef.current, labelRef.current], {
-      opacity: 0,
-      y: -16,
-      duration: 0.4,
-      ease: 'power2.in',
-      stagger: 0.05,
-    });
+    const startExit = () => {
+      if (exiting) return;
+      exiting = true;
+      gsap.killTweensOf([logoRef.current, dotRef.current]); // stop float/pulse before exit
+      const tl = gsap.timeline({
+        onComplete: () => {
+          document.body.style.overflow = '';
+          onDone();
+        },
+      });
+      tl.to([logoRef.current, countRef.current, labelRef.current], {
+        opacity: 0,
+        y: -16,
+        duration: 0.4,
+        ease: 'power2.in',
+        stagger: 0.05,
+      });
+      panelRefs.current.forEach((panel, i) => {
+        tl.to(panel, { y: '-100%', duration: 0.8, ease: 'power4.inOut' }, 0.2 + i * 0.07);
+      });
+    };
 
-    panelRefs.current.forEach((panel, i) => {
-      tl.to(
-        panel,
-        { y: '-100%', duration: 0.8, ease: 'power4.inOut' },
-        0.2 + i * 0.07,
-      );
-    });
+    const tick = () => {
+      const target = ready && minElapsed ? 1 : 0.9;
+      current += (target - current) * 0.08;
+      if (target === 1 && current > 0.995) current = 1;
+      setCount(Math.min(100, Math.round(current * 100)));
+      if (lineRef.current) lineRef.current.style.transform = `scaleX(${current})`;
+      if (current >= 1) {
+        startExit();
+        return;
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+
+    const onReady = () => { ready = true; };
+    if (!ready) window.addEventListener('load', onReady);
+
+    const minTimer  = setTimeout(() => { minElapsed = true; }, 700);
+    const fallback  = setTimeout(() => { ready = true; minElapsed = true; }, 6000);
 
     return () => {
       cancelAnimationFrame(raf);
+      clearTimeout(minTimer);
+      clearTimeout(fallback);
+      window.removeEventListener('load', onReady);
       document.body.style.overflow = '';
     };
   }, [onDone]);

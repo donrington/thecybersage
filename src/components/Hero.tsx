@@ -185,7 +185,7 @@ export function Hero() {
               lineHeight: 1.25,
             }}
           >
-            Full Stack Engineer — building systems that hold up under pressure.
+            Full Stack Engineer building AI-driven systems for regulated industries — from embedded edge to browser.
           </p>
 
           {/* Bottom row: stack + CTA */}
@@ -266,7 +266,7 @@ export function Hero() {
           className="text-[0.55rem] tracking-[0.25em] uppercase text-black/20 [writing-mode:vertical-rl] rotate-180"
           style={{ fontFamily: 'Satoshi, system-ui, sans-serif' }}
         >
-          Full Stack · 5+ Years · Remote
+          AI · Embedded · Regulated · Remote
         </span>
       </div>
     </section>

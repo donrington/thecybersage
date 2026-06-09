@@ -601,7 +601,7 @@ export function Credentials() {
             animate={sectionInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, ease: EASE }}
           >
-            05 / Credentials
+            06 / Credentials
           </motion.span>
           <motion.div
             className="flex-1 h-px bg-white/10"

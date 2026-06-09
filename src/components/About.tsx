@@ -15,6 +15,11 @@ const STATS = [
   { label: 'Countries Served',    target: 8,   suffix: ''  },
 ];
 
+const COUNTRIES = [
+  'Nigeria', 'United States', 'Canada', 'United Kingdom',
+  'Australia', 'India', 'Ghana', 'Kenya',
+];
+
 const QUOTE_WORDS = [
   'I', 'build', 'systems', 'that', "don’t", 'just', 'work', '—',
   'they', 'scale,', 'stay', 'fast,', 'and', 'stay', 'clean', 'under', 'pressure.',
@@ -174,7 +179,8 @@ export function About() {
         {/* Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-[clamp(3rem,6vw,8rem)]">
 
-          {/* Left: stats */}
+          {/* Left: stats + countries */}
+          <div className="flex flex-col gap-[clamp(2.5rem,4vw,3.5rem)]">
           <div ref={statsRef} className="grid grid-cols-2 gap-x-8 gap-y-12 content-start">
             {STATS.map((stat, i) => (
               <motion.div
@@ -218,6 +224,35 @@ export function About() {
                 />
               </motion.div>
             ))}
+          </div>
+
+          {/* Countries served */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={statsInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.5, ease: EASE }}
+          >
+            <p
+              className="text-[0.7rem] font-semibold tracking-[0.18em] uppercase text-black/35 mb-4"
+              style={{ fontFamily: 'Satoshi, system-ui, sans-serif' }}
+            >
+              Shipped across
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {COUNTRIES.map((country, i) => (
+                <motion.span
+                  key={country}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={statsInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.4, delay: 0.6 + i * 0.05, ease: EASE }}
+                  className="border border-black/12 px-3 py-1.5 text-[0.68rem] font-medium tracking-[0.06em] text-black/50"
+                  style={{ fontFamily: 'Satoshi, system-ui, sans-serif' }}
+                >
+                  {country}
+                </motion.span>
+              ))}
+            </div>
+          </motion.div>
           </div>
 
           {/* Right: quote + body + image */}

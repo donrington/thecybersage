@@ -10,6 +10,13 @@ const CLIENTS = [
   { name: 'NextGen', logo: '/logo/NEXTGEN PL (Landscape) WHITE.png' },
   { name: 'Axflo', logo: '/logo/AXFLOOILLOGOWHITE.png' },
   { name: 'Rokeyla', logo: '/logo/RokeylaSecondaryLogoWhite.png' },
+  { name: 'Samdus', logo: '/logo/samdus_white.png' },
+  { name: 'Anoc', logo: '/logo/anoc.svg' },
+  { name: 'Chronos', logo: '/logo/chronos_logo_trans2.png' },
+  { name: 'TechHub', logo: '/logo/techwhite.png' },
+  { name: 'Chris Cleans', logo: '/logo/chris_con.png' },
+  { name: 'Myra Keleher', logo: '/logo/myra_logo.webp' },
+  { name: 'Tuan Tling', logo: '/logo/tuantling.png' },
   { name: 'Cybersage', logo: '/logo/logo_white_horizontal.png' },
   { name: 'TQL', logo: '/logo/TQL LOGO 2-01.png' },
 ];
@@ -23,7 +30,7 @@ export function Marquee() {
     const totalWidth = track.scrollWidth / 2;
     gsap.to(track, {
       x: -totalWidth,
-      duration: 22,
+      duration: 40,
       ease: 'none',
       repeat: -1,
     });

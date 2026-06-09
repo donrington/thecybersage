@@ -33,7 +33,7 @@ He is equally at home designing ultra-modern frontend experiences — cinematic 
 
 ABOUT ABAKWE CARRINGTON
 
-Abakwe Carrington is a Senior Full Stack Software Engineer and Solutions Architect with over five years of experience building scalable, production-grade web systems. He holds a B.Sc. in Economics from Pan-Atlantic University, which gives him a rare, business-centric lens on engineering — he builds software that solves real commercial problems, not just technical ones.
+Abakwe Carrington is a Senior Full Stack Software Engineer and Solutions Architect with over five years of experience building scalable, production-grade web systems. He studied at the Federal University of Technology, Owerri, Nigeria (2016 to 2021), which grounded him in rigorous analytical thinking and gives him a rare, problem-centric lens on engineering — he builds software that solves real commercial problems, not just technical ones.
 
 He operates under a personal philosophy of momentum over perfection: shipping high-impact products fast and iterating with precision. He is the founder of Cybersage, a software development agency that builds high-end digital platforms and ultra-modern interfaces. He works fully remote, worldwide, and is currently open to new executive engineering roles and contract opportunities.
 
@@ -103,9 +103,9 @@ He automated Brix level quality monitoring, cutting manual inspection cycles by 
 
 CERTIFICATIONS
 
-Full Stack Engineering from IBT Learning, completed 2025.
-Web Application Development from Moat Academy, completed 2024.
-Web Development Internship certification from Zidio Development, completed 2024.
+Full Stack Software Engineering from IBT Learning Solutions, completed 2025.
+Web Development from Moat Academy for Developers, completed 2023.
+Web Development Internship certification from Zidio Development, completed February 2024.
 
 ---
 

@@ -7,10 +7,10 @@ import { X, Send, Sparkles, ArrowUpRight } from 'lucide-react';
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 const SUGGESTIONS = [
-  { label: 'Strongest projects?',    query: 'What are his strongest projects?' },
-  { label: 'Built anything with AI?', query: 'Has he built anything with AI?' },
-  { label: 'Backend stack?',          query: 'What backend technologies does he use?' },
-  { label: 'Available to hire?',      query: 'Is he available for hire?' },
+  { label: 'Available right now?',     query: 'Is Abakwe available to start a new project right now?' },
+  { label: 'How do you engage?',       query: 'How does Abakwe structure engagements — contract, rates, and timelines?' },
+  { label: 'Work in my timezone?',     query: 'Can he work remotely across my timezone, and how does he communicate?' },
+  { label: 'Built something like X?',  query: 'Has he built something similar to what I need? What are his most relevant projects?' },
 ];
 
 interface Message {
@@ -399,7 +399,7 @@ export function AIAssistant() {
                           margin: 0,
                         }}
                       >
-                        Hello. I'm Abakwe's AI assistant — I know his full engineering history, every project he's shipped, and what he's currently building.
+                        Hello. I'm Carrington's AI assistant — I know his full engineering history, every project he's shipped, and what he's currently building.
                       </p>
                       <p
                         style={{

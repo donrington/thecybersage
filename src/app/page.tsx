@@ -13,6 +13,9 @@ import { Services } from '@/components/Services';
 import { Experience } from '@/components/Experience';
 import { Credentials } from '@/components/Credentials';
 import { Marquee } from '@/components/Marquee';
+import { CurrentlyBuilding } from '@/components/CurrentlyBuilding';
+import { Process } from '@/components/Process';
+import { Testimonials } from '@/components/Testimonials';
 import { Stack } from '@/components/Stack';
 import { Contact } from '@/components/Contact';
 import { AIAssistant } from '@/components/AIAssistant';
@@ -60,10 +63,13 @@ export default function Home() {
           <About />
           <Projects />
           <Marquee />
+          <CurrentlyBuilding />
           <Stack />
           <Services />
+          <Process />
           <Experience />
           <Credentials />
+          <Testimonials />
           <Contact />
         </main>
         <BackToTop />

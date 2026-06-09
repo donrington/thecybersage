@@ -558,7 +558,7 @@ export function Experience() {
           animate={sectionInView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.6, ease: EASE }}
         >
-          04 / Experience
+          05 / Experience
         </motion.span>
         <motion.div
           className="flex-1 h-px bg-black/10"

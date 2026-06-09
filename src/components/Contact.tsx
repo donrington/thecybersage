@@ -44,11 +44,21 @@ const SOCIALS = [
 ];
 
 /* ── Magnetic CTA button ──────────────────────────────────────────────────── */
-function MagneticCTA({ onClick }: { onClick: () => void }) {
+function MagneticCTA({
+  label,
+  onClick,
+  variant = 'outline',
+}: {
+  label: string;
+  onClick: () => void;
+  variant?: 'outline' | 'solid';
+}) {
   const rawX = useMotionValue(0);
   const rawY = useMotionValue(0);
   const x = useSpring(rawX, { stiffness: 280, damping: 26 });
   const y = useSpring(rawY, { stiffness: 280, damping: 26 });
+
+  const solid = variant === 'solid';
 
   return (
     <motion.button
@@ -61,24 +71,50 @@ function MagneticCTA({ onClick }: { onClick: () => void }) {
         rawY.set((e.clientY - r.top - r.height / 2) * 0.3);
       }}
       onMouseLeave={() => { rawX.set(0); rawY.set(0); }}
-      className="group inline-flex items-center gap-3 border border-white/20 px-8 py-4 text-white/60 hover:text-white hover:border-white/50 transition-colors duration-300"
-      whileHover={{ backgroundColor: 'rgba(255,255,255,0.04)' }}
+      className={
+        solid
+          ? 'group inline-flex items-center gap-3 bg-white text-black px-8 py-4 hover:bg-white/85 transition-colors duration-300'
+          : 'group inline-flex items-center gap-3 border border-white/20 px-8 py-4 text-white/60 hover:text-white hover:border-white/50 transition-colors duration-300'
+      }
+      whileHover={!solid ? { backgroundColor: 'rgba(255,255,255,0.04)' } : undefined}
     >
       <span
         className="text-[0.65rem] tracking-[0.22em] uppercase font-medium"
         style={{ fontFamily: 'Satoshi, system-ui, sans-serif' }}
       >
-        Send a Message
+        {label}
       </span>
       <ArrowUpRight size={13} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" />
     </motion.button>
   );
 }
 
+/* ── Validation ───────────────────────────────────────────────────────────── */
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+type FormState = { name: string; email: string; message: string };
+type FieldErrors = Record<keyof FormState, string>;
+
+function getErrors(f: FormState): FieldErrors {
+  return {
+    name: f.name.trim().length < 2 ? 'Please enter your name.' : '',
+    email: !EMAIL_RE.test(f.email.trim()) ? 'Enter a valid email address.' : '',
+    message: f.message.trim().length < 10 ? 'A little more detail helps (10+ characters).' : '',
+  };
+}
+
 /* ── Contact modal ────────────────────────────────────────────────────────── */
-function ContactModal({ onClose }: { onClose: () => void }) {
-  const [form, setForm] = useState({ name: '', email: '', message: '' });
+function ContactModal({ intent, onClose }: { intent: 'message' | 'call'; onClose: () => void }) {
+  const [form, setForm] = useState<FormState>({
+    name: '',
+    email: '',
+    message: intent === 'call' ? 'I’d like to book a quick call to discuss a project. My availability / timezone is: ' : '',
+  });
+  const [touched, setTouched] = useState({ name: false, email: false, message: false });
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+
+  const errors = getErrors(form);
+  const isValid = !errors.name && !errors.email && !errors.message;
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -87,6 +123,10 @@ function ContactModal({ onClose }: { onClose: () => void }) {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!isValid) {
+      setTouched({ name: true, email: true, message: true });
+      return;
+    }
     setStatus('sending');
     try {
       const res = await fetch('/api/contact', {
@@ -100,8 +140,11 @@ function ContactModal({ onClose }: { onClose: () => void }) {
     }
   };
 
-  const inputClass =
-    'w-full bg-transparent border border-white/12 text-white placeholder:text-white/18 px-5 py-3.5 text-sm focus:outline-none focus:border-white/40 transition-colors duration-200';
+  const fieldClass = (hasError: boolean) =>
+    `w-full bg-transparent border ${hasError ? 'border-red-400/50 focus:border-red-400/70' : 'border-white/12 focus:border-white/40'} text-white placeholder:text-white/18 px-5 py-3.5 text-sm focus:outline-none transition-colors duration-200`;
+
+  const errorClass =
+    'text-[0.58rem] tracking-[0.04em] text-red-400/70 mt-1.5 block';
 
   return (
     <motion.div
@@ -147,7 +190,7 @@ function ContactModal({ onClose }: { onClose: () => void }) {
                 className="text-[0.55rem] tracking-[0.28em] uppercase text-white/25 font-medium block mb-2"
                 style={{ fontFamily: 'Satoshi, system-ui, sans-serif' }}
               >
-                Get in Touch
+                {intent === 'call' ? 'Book a Call' : 'Get in Touch'}
               </span>
               <h2
                 className="font-black text-white tracking-[-0.035em] leading-tight"
@@ -157,7 +200,7 @@ function ContactModal({ onClose }: { onClose: () => void }) {
                   fontSize: 'clamp(1.6rem, 4vw, 2.2rem)',
                 }}
               >
-                Start a{' '}
+                {intent === 'call' ? 'Let’s' : 'Start a'}{' '}
                 <span
                   style={{
                     fontFamily: 'var(--font-instrument), Georgia, serif',
@@ -166,7 +209,7 @@ function ContactModal({ onClose }: { onClose: () => void }) {
                     color: 'rgba(255,255,255,0.32)',
                   }}
                 >
-                  conversation
+                  {intent === 'call' ? 'talk' : 'conversation'}
                 </span>
               </h2>
             </div>
@@ -229,13 +272,17 @@ function ContactModal({ onClose }: { onClose: () => void }) {
                     </label>
                     <input
                       type="text"
-                      required
                       value={form.name}
                       onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))}
-                      className={inputClass}
+                      onBlur={() => setTouched((p) => ({ ...p, name: true }))}
+                      className={fieldClass(touched.name && !!errors.name)}
                       style={{ fontFamily: 'Satoshi, system-ui, sans-serif' }}
                       placeholder="Your name"
+                      aria-invalid={touched.name && !!errors.name}
                     />
+                    {touched.name && errors.name && (
+                      <span className={errorClass} style={{ fontFamily: 'Satoshi, system-ui, sans-serif' }}>{errors.name}</span>
+                    )}
                   </div>
                   <div>
                     <label
@@ -246,13 +293,17 @@ function ContactModal({ onClose }: { onClose: () => void }) {
                     </label>
                     <input
                       type="email"
-                      required
                       value={form.email}
                       onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))}
-                      className={inputClass}
+                      onBlur={() => setTouched((p) => ({ ...p, email: true }))}
+                      className={fieldClass(touched.email && !!errors.email)}
                       style={{ fontFamily: 'Satoshi, system-ui, sans-serif' }}
                       placeholder="your@email.com"
+                      aria-invalid={touched.email && !!errors.email}
                     />
+                    {touched.email && errors.email && (
+                      <span className={errorClass} style={{ fontFamily: 'Satoshi, system-ui, sans-serif' }}>{errors.email}</span>
+                    )}
                   </div>
                 </div>
 
@@ -264,14 +315,18 @@ function ContactModal({ onClose }: { onClose: () => void }) {
                     Message
                   </label>
                   <textarea
-                    required
                     rows={5}
                     value={form.message}
                     onChange={(e) => setForm((p) => ({ ...p, message: e.target.value }))}
-                    className={`${inputClass} resize-none`}
+                    onBlur={() => setTouched((p) => ({ ...p, message: true }))}
+                    className={`${fieldClass(touched.message && !!errors.message)} resize-none`}
                     style={{ fontFamily: 'Satoshi, system-ui, sans-serif' }}
                     placeholder="Tell me about your project..."
+                    aria-invalid={touched.message && !!errors.message}
                   />
+                  {touched.message && errors.message && (
+                    <span className={errorClass} style={{ fontFamily: 'Satoshi, system-ui, sans-serif' }}>{errors.message}</span>
+                  )}
                 </div>
 
                 {status === 'error' && (
@@ -285,11 +340,11 @@ function ContactModal({ onClose }: { onClose: () => void }) {
 
                 <button
                   type="submit"
-                  disabled={status === 'sending'}
-                  className="w-full bg-white text-black py-4 text-[0.62rem] tracking-[0.22em] uppercase font-semibold hover:bg-white/88 transition-colors duration-200 disabled:opacity-40 mt-2"
+                  disabled={status === 'sending' || !isValid}
+                  className="w-full bg-white text-black py-4 text-[0.62rem] tracking-[0.22em] uppercase font-semibold hover:bg-white/88 transition-colors duration-200 disabled:opacity-40 disabled:cursor-not-allowed mt-2"
                   style={{ fontFamily: 'Satoshi, system-ui, sans-serif' }}
                 >
-                  {status === 'sending' ? 'Sending...' : 'Send Message'}
+                  {status === 'sending' ? 'Sending...' : intent === 'call' ? 'Request Call' : 'Send Message'}
                 </button>
               </motion.form>
             )}
@@ -306,10 +361,13 @@ export function Contact() {
   const emailRef     = useRef<HTMLAnchorElement>(null);
   const wordmarkRef  = useRef<HTMLSpanElement>(null);
   const sectionInView = useInView(sectionRef, { once: true, margin: '-12%' });
-  const [modalOpen, setModalOpen] = useState(false);
+  const [modal, setModal] = useState<null | 'message' | 'call'>(null);
 
   useEffect(() => {
-    const handler = () => setModalOpen(true);
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      setModal(detail === 'call' ? 'call' : 'message');
+    };
     window.addEventListener('open-contact-modal', handler);
     return () => window.removeEventListener('open-contact-modal', handler);
   }, []);
@@ -440,7 +498,7 @@ export function Contact() {
               animate={sectionInView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.6, ease: EASE }}
             >
-              06 / Contact
+              08 / Contact
             </motion.span>
             <motion.div
               className="flex-1 h-px bg-white/10"
@@ -488,7 +546,8 @@ export function Contact() {
               animate={sectionInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.5, ease: EASE }}
             >
-              <MagneticCTA onClick={() => setModalOpen(true)} />
+              <MagneticCTA label="Book a Call" variant="solid" onClick={() => setModal('call')} />
+              <MagneticCTA label="Send a Message" onClick={() => setModal('message')} />
               <a
                 href="mailto:abakwecarrington@gmail.com"
                 className="text-[0.62rem] tracking-[0.18em] uppercase text-white/28 hover:text-white/60 transition-colors duration-200 font-medium"
@@ -615,8 +674,10 @@ export function Contact() {
                 { label: 'About', href: '#about' },
                 { label: 'Projects', href: '#work' },
                 { label: 'Services', href: '#services' },
+                { label: 'Process', href: '#process' },
                 { label: 'Experience', href: '#experience' },
                 { label: 'Credentials', href: '#credentials' },
+                { label: 'Reviews', href: '#testimonials' },
                 { label: 'Contact', href: '#contact' },
               ].map(({ label, href }) => (
                 <a
@@ -704,7 +765,7 @@ export function Contact() {
 
       {/* Modal portal */}
       <AnimatePresence>
-        {modalOpen && <ContactModal onClose={() => setModalOpen(false)} />}
+        {modal && <ContactModal intent={modal} onClose={() => setModal(null)} />}
       </AnimatePresence>
     </>
   );

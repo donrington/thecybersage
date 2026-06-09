@@ -87,6 +87,15 @@ export const metadata: Metadata = {
     'scalable web applications',
     'production-grade web systems',
     'high-performance web apps',
+    // Niche specialisations
+    'AI engineer',
+    'computer vision developer',
+    'embedded systems developer',
+    'WebRTC developer',
+    'real-time systems engineer',
+    'HIPAA compliant development',
+    'AI surveillance system',
+    'regulated industries software',
   ],
 
   authors: [{ name: 'Abakwe Carrington', url: BASE_URL }],
@@ -206,6 +215,8 @@ const personSchema = {
     'REST APIs', 'GraphQL', 'Microservices',
     'CI/CD', 'DevOps', 'Cloud Architecture',
     'Web Performance Optimisation', 'System Design',
+    'Computer Vision', 'Embedded Systems', 'WebRTC',
+    'Real-time Systems', 'AI Engineering', 'HIPAA Compliance',
   ],
   makesOffer: [
     {
