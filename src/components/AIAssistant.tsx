@@ -6,12 +6,37 @@ import { X, Send, Sparkles, ArrowUpRight } from 'lucide-react';
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-const SUGGESTIONS = [
+interface Suggestion { label: string; query: string; }
+
+/* Pool of client-intent prompts — a fresh set of 4 is shuffled in over time */
+const SUGGESTION_POOL: Suggestion[] = [
   { label: 'Available right now?',     query: 'Is Carrington available to start a new project right now?' },
   { label: 'How do you engage?',       query: 'How does Carrington structure engagements — contract, rates, and timelines?' },
   { label: 'Work in my timezone?',     query: 'Can he work remotely across my timezone, and how does he communicate?' },
   { label: 'Built something like X?',  query: 'Has he built something similar to what I need? What are his most relevant projects?' },
+  { label: 'AI & computer vision?',    query: 'Has Carrington built AI, computer vision, or embedded systems?' },
+  { label: 'Regulated industries?',    query: 'Does he have experience with HIPAA or other regulated, compliance-heavy industries?' },
+  { label: 'How fast can you ship?',   query: 'How quickly can Carrington deliver a typical project?' },
+  { label: 'His strongest work?',      query: 'What are Carrington’s strongest, most impressive projects?' },
+  { label: 'What’s his stack?',        query: 'What technologies and stack does Carrington specialise in?' },
 ];
+
+function shuffle<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+/* Pick 4 fresh suggestions that don't overlap the currently shown set */
+function freshSuggestions(prev: Suggestion[]): Suggestion[] {
+  const shown = new Set(prev.map((s) => s.query));
+  const rest = shuffle(SUGGESTION_POOL.filter((s) => !shown.has(s.query)));
+  const picked = rest.slice(0, 4);
+  return picked.length === 4 ? picked : shuffle(SUGGESTION_POOL).slice(0, 4);
+}
 
 interface Message {
   role: 'user' | 'assistant';
@@ -108,6 +133,7 @@ export function AIAssistant() {
   const [input, setInput]         = useState('');
   const [streaming, setStreaming] = useState(false);
   const [showSugg, setShowSugg]   = useState(true);
+  const [suggestions, setSuggestions] = useState<Suggestion[]>(() => SUGGESTION_POOL.slice(0, 4));
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef  = useRef<HTMLInputElement>(null);
   const abortRef  = useRef<AbortController | null>(null);
@@ -115,6 +141,14 @@ export function AIAssistant() {
   useEffect(() => {
     if (open) setTimeout(() => inputRef.current?.focus(), 350);
   }, [open]);
+
+  /* Shuffle a fresh set of suggestions on open, then rotate every 5s while idle */
+  useEffect(() => {
+    if (!open || messages.length > 0 || !showSugg) return;
+    setSuggestions((prev) => freshSuggestions(prev));
+    const id = setInterval(() => setSuggestions((prev) => freshSuggestions(prev)), 5000);
+    return () => clearInterval(id);
+  }, [open, messages.length, showSugg]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -424,45 +458,51 @@ export function AIAssistant() {
                           exit={{ opacity: 0 }}
                           transition={{ delay: 0.15, duration: 0.35 }}
                         >
-                          {SUGGESTIONS.map((s) => (
-                            <button
-                              key={s.query}
-                              onClick={() => send(s.query)}
-                              style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'space-between',
-                                gap: '0.5rem',
-                                border: '1px solid rgba(255,255,255,0.08)',
-                                background: 'rgba(255,255,255,0.02)',
-                                padding: '0.65rem 0.75rem',
-                                textAlign: 'left',
-                                cursor: 'pointer',
-                                transition: 'border-color 0.2s, background 0.2s',
-                              }}
-                              onMouseEnter={(e) => {
-                                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)';
-                                e.currentTarget.style.background = 'rgba(255,255,255,0.05)';
-                              }}
-                              onMouseLeave={(e) => {
-                                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)';
-                                e.currentTarget.style.background = 'rgba(255,255,255,0.02)';
-                              }}
-                            >
-                              <span
+                          <AnimatePresence mode="popLayout" initial={false}>
+                            {suggestions.map((s, i) => (
+                              <motion.button
+                                key={s.query}
+                                layout
+                                onClick={() => send(s.query)}
+                                initial={{ opacity: 0, y: 8, filter: 'blur(4px)' }}
+                                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                                exit={{ opacity: 0, y: -8, filter: 'blur(4px)' }}
+                                transition={{ duration: 0.35, delay: i * 0.04, ease: EASE }}
                                 style={{
-                                  fontFamily: 'Satoshi, system-ui, sans-serif',
-                                  fontSize: '0.65rem',
-                                  letterSpacing: '0.03em',
-                                  color: 'rgba(255,255,255,0.42)',
-                                  lineHeight: 1.4,
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'space-between',
+                                  gap: '0.5rem',
+                                  border: '1px solid rgba(255,255,255,0.08)',
+                                  background: 'rgba(255,255,255,0.02)',
+                                  padding: '0.65rem 0.75rem',
+                                  textAlign: 'left',
+                                  cursor: 'pointer',
+                                }}
+                                onMouseEnter={(e) => {
+                                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)';
+                                  e.currentTarget.style.background = 'rgba(255,255,255,0.05)';
+                                }}
+                                onMouseLeave={(e) => {
+                                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)';
+                                  e.currentTarget.style.background = 'rgba(255,255,255,0.02)';
                                 }}
                               >
-                                {s.label}
-                              </span>
-                              <ArrowUpRight size={9} style={{ color: 'rgba(255,255,255,0.2)', flexShrink: 0 }} />
-                            </button>
-                          ))}
+                                <span
+                                  style={{
+                                    fontFamily: 'Satoshi, system-ui, sans-serif',
+                                    fontSize: '0.65rem',
+                                    letterSpacing: '0.03em',
+                                    color: 'rgba(255,255,255,0.42)',
+                                    lineHeight: 1.4,
+                                  }}
+                                >
+                                  {s.label}
+                                </span>
+                                <ArrowUpRight size={9} style={{ color: 'rgba(255,255,255,0.2)', flexShrink: 0 }} />
+                              </motion.button>
+                            ))}
+                          </AnimatePresence>
                         </motion.div>
                       )}
                     </AnimatePresence>
