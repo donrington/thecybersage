@@ -4,7 +4,8 @@ import { useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import Image from 'next/image';
 
-const CLIENTS = [
+/* `scale` compensates for logos with heavy internal whitespace (e.g. square marks) */
+const CLIENTS: { name: string; logo: string; scale?: number }[] = [
   { name: 'RecoverDerm', logo: '/logo/ReCoverDerm Logo Varient (White).png' },
   { name: 'Autoboy', logo: '/logo/autoboy.png' },
   { name: 'NextGen', logo: '/logo/NEXTGEN PL (Landscape) WHITE.png' },
@@ -12,7 +13,7 @@ const CLIENTS = [
   { name: 'Rokeyla', logo: '/logo/RokeylaSecondaryLogoWhite.png' },
   { name: 'Samdus', logo: '/logo/samdus_white.png' },
   { name: 'Anoc', logo: '/logo/anoc.svg' },
-  { name: 'AmaniGo', logo: '/logo/amanigo.png' },
+  { name: 'AmaniGo', logo: '/logo/amanigo.png', scale: 2 },
   { name: 'Chronos', logo: '/logo/chronos_logo_trans2.png' },
   { name: 'TechHub', logo: '/logo/techwhite.png' },
   { name: 'Chris Cleans', logo: '/logo/chris_con.png' },
@@ -51,6 +52,7 @@ export function Marquee() {
                 alt={client.name}
                 fill
                 className="object-contain"
+                style={client.scale ? { transform: `scale(${client.scale})` } : undefined}
               />
             </div>
             <span className="text-white/10 text-xs">·</span>

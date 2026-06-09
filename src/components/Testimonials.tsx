@@ -22,6 +22,8 @@ interface Testimonial {
   image: string;
   /** White company logo in /public/logo — omitted for peer endorsements */
   logo?: string;
+  /** Scale-up factor for logos with heavy internal whitespace */
+  logoScale?: number;
   source: Source;
 }
 
@@ -55,6 +57,7 @@ const TESTIMONIALS: Testimonial[] = [
       'Cybersage delivered a top-notch CMS for our travel agency. It’s user-friendly and has genuinely enhanced our client engagement.',
     image: '/testimonial/amanigo.png',
     logo: '/logo/amanigo.png',
+    logoScale: 2,
     source: 'Client',
   },
   {
@@ -276,8 +279,14 @@ export function Testimonials() {
                 <div className="mt-9 flex items-center gap-5">
                   {/* company logo OR source badge slot */}
                   {t.logo ? (
-                    <div className="relative h-9 w-28 shrink-0 opacity-70">
-                      <Image src={t.logo} alt={t.company} fill className="object-contain object-left" />
+                    <div className="relative h-12 w-32 shrink-0 opacity-80">
+                      <Image
+                        src={t.logo}
+                        alt={t.company}
+                        fill
+                        className="object-contain object-left"
+                        style={t.logoScale ? { transform: `scale(${t.logoScale})`, transformOrigin: 'left center' } : undefined}
+                      />
                     </div>
                   ) : null}
 
