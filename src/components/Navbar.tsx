@@ -6,11 +6,13 @@ import Image from 'next/image';
 import { ChevronDown, ArrowRight } from 'lucide-react';
 
 const NAV_LINKS = [
-  { label: 'Work',        href: '#work',        chevron: false },
-  { label: 'Services',    href: '#services',    chevron: false },
-  { label: 'About',       href: '#about',       chevron: false },
-  { label: 'Experience',  href: '#experience',  chevron: false },
-  { label: 'Credentials', href: '#credentials', chevron: false },
+  { label: 'Work',        href: '#work',         chevron: false },
+  { label: 'Services',    href: '#services',     chevron: false },
+  { label: 'Process',     href: '#process',      chevron: false },
+  { label: 'About',       href: '#about',        chevron: false },
+  { label: 'Experience',  href: '#experience',   chevron: false },
+  { label: 'Credentials', href: '#credentials',  chevron: false },
+  { label: 'Reviews',     href: '#testimonials', chevron: false },
 ];
 
 const SPRING = { type: 'spring' as const, stiffness: 280, damping: 32, mass: 0.75 };
@@ -19,7 +21,7 @@ function NavLink({ label, href, chevron }: { label: string; href: string; chevro
   return (
     <a
       href={href}
-      className="flex items-center gap-1 px-3.5 py-2 rounded-full text-[0.63rem] font-medium tracking-widest uppercase text-white/55 hover:text-white hover:bg-white/8 transition-all duration-200 whitespace-nowrap"
+      className="flex items-center gap-1 px-2.5 py-2 rounded-full text-[0.62rem] font-medium tracking-wide uppercase text-white/55 hover:text-white hover:bg-white/8 transition-all duration-200 whitespace-nowrap"
       style={{ fontFamily: 'Satoshi, system-ui, sans-serif' }}
     >
       {label}
@@ -61,7 +63,7 @@ export function Navbar() {
   useEffect(() => {
     const calc = () => {
       const padding = Math.min(Math.max(window.innerWidth * 0.04, 20), 80);
-      setExpandedW(Math.min(window.innerWidth - padding * 2, 900));
+      setExpandedW(Math.min(window.innerWidth - padding * 2, 980));
     };
     calc();
     window.addEventListener('resize', calc);
@@ -75,8 +77,8 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', fn);
   }, []);
 
-  /* Compact ≈ logo(140) + sep + 5 links(~410) + sep + CTA(~90) + padding ≈ 740 */
-  const COMPACT_W = 748;
+  /* Compact ≈ logo(140) + sep + 7 links(~520) + sep + CTA(~90) + padding ≈ 820 */
+  const COMPACT_W = 840;
   const targetW   = scrolled ? expandedW : COMPACT_W;
 
   return (
@@ -206,7 +208,7 @@ export function Navbar() {
               animate={{ clipPath: 'inset(0 0 0% 0)'   }}
               exit={{    clipPath: 'inset(0 0 100% 0)'  }}
               transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute inset-x-0 top-0 min-h-screen bg-black/95 backdrop-blur-2xl pt-24 px-6 pb-10 flex flex-col pointer-events-auto"
+              className="absolute inset-x-0 top-0 h-screen overflow-y-auto bg-black/95 backdrop-blur-2xl pt-24 px-6 pb-10 flex flex-col pointer-events-auto"
             >
               {/* Visible close button */}
               <button
@@ -227,7 +229,7 @@ export function Navbar() {
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 + i * 0.06, duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
-                  className="flex items-center justify-between border-b border-white/8 py-5"
+                  className="flex items-center justify-between border-b border-white/8 py-4"
                 >
                   <span
                     className="font-black tracking-[-0.04em] text-white"
