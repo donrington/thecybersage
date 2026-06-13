@@ -180,7 +180,7 @@ export function Process() {
             animate={sectionInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.3, ease: EASE }}
           >
-            Hiring an engineer shouldn’t feel like a gamble. Here’s the exact, predictable path
+            Hiring an architect shouldn’t feel like a gamble. Here’s the exact, predictable path
             from first conversation to a launched, maintainable product — no disappearing acts.
           </motion.p>
         </div>

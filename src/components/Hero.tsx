@@ -11,7 +11,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const SCRAMBLE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#@_!∆';
 const EASE = [0.22, 1, 0.36, 1] as const;
-const STACK_TAGS = ['Next.js', 'Django', 'Go', 'PostgreSQL', 'AWS', 'Docker'];
+const STACK_TAGS = ['AWS', 'Docker', 'Go', 'PostgreSQL', 'Redis', 'Next.js'];
 
 function runScramble(el: HTMLElement, duration = 900, delay = 0) {
   animate(el, {
@@ -185,7 +185,7 @@ export function Hero() {
               lineHeight: 1.25,
             }}
           >
-            Full Stack Engineer building AI-driven systems for regulated industries — from embedded edge to browser.
+            Infrastructure &amp; Systems Architect designing distributed platforms for regulated industries — from embedded edge to cloud.
           </p>
 
           {/* Bottom row: stack + CTA */}
@@ -266,7 +266,7 @@ export function Hero() {
           className="text-[0.55rem] tracking-[0.25em] uppercase text-black/20 [writing-mode:vertical-rl] rotate-180"
           style={{ fontFamily: 'Satoshi, system-ui, sans-serif' }}
         >
-          AI · Embedded · Regulated · Remote
+          Systems · Cloud · Distributed · Remote
         </span>
       </div>
     </section>

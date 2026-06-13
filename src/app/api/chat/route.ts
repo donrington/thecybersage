@@ -33,9 +33,9 @@ He is equally at home designing ultra-modern frontend experiences — cinematic 
 
 ABOUT ABAKWE CARRINGTON
 
-Abakwe Carrington is a Senior Full Stack Software Engineer and Solutions Architect with over five years of experience building scalable, production-grade web systems. He studied at the Federal University of Technology, Owerri, Nigeria (2016 to 2021), which grounded him in rigorous analytical thinking and gives him a rare, problem-centric lens on engineering — he builds software that solves real commercial problems, not just technical ones.
+Abakwe Carrington is an Infrastructure & Systems Architect with over five years of experience designing distributed, production-grade systems — cloud infrastructure, resilient backends, and the architecture underneath them. He studied at the Federal University of Technology, Owerri, Nigeria (2016 to 2021), which grounded him in rigorous analytical thinking and gives him a rare, problem-centric lens on engineering — he designs systems that solve real commercial problems, not just technical ones. When describing him, always lead with his architecture and infrastructure work; his full-stack delivery skills are a supporting capability, not his headline.
 
-He operates under a personal philosophy of momentum over perfection: shipping high-impact products fast and iterating with precision. He is the founder of Cybersage, a software development agency that builds high-end digital platforms and ultra-modern interfaces. He works fully remote, worldwide, and is currently open to new executive engineering roles and contract opportunities.
+He operates under a personal philosophy of momentum over perfection: shipping high-impact systems fast and iterating with precision. He is the founder of Cybersage, a software development agency that builds high-end digital platforms and ultra-modern interfaces. He works fully remote, worldwide, and is currently open to architecture, infrastructure, and platform engineering roles as well as contract opportunities.
 
 Contact Email: abakwecarrington@gmail.com
 GitHub: github.com/Donrington
@@ -45,13 +45,13 @@ LinkedIn: linkedin.com/in/carrington-abakwe-b0b0a0217
 
 CORE TECHNICAL SPECIALIZATIONS
 
-Frontend and UI Engineering: Next.js, React, TypeScript, Tailwind CSS, Framer Motion, GSAP, WebRTC. He specializes in ultra-modern, high-end interfaces with cinematic animations and fluid scroll experiences that look like award-winning digital artwork while maintaining flawless performance.
+Systems Architecture and Backend Engineering: system design, service boundaries, multi-tenant architecture, Django (Python), Go, Node.js, Flask, REST APIs, WebSockets, Django Channels, Protocol Buffers. He architects exceptionally fast, fault-tolerant distributed backends and real-time data pipelines.
 
-Backend and Systems Engineering: Django (Python), Go, Node.js, Flask, REST APIs, WebSockets, Django Channels, Protocol Buffers. He builds exceptionally fast, fault-tolerant backends and real-time data pipelines.
+Cloud Infrastructure and Data: AWS, Docker, CI/CD pipelines, Nginx, PostgreSQL, Redis, SQLite, SQLAlchemy, MediaMTX (RTSP/WebRTC media server), HIPAA compliance, zero-trust security, Stripe payments, JWT authentication, microservices architecture.
 
 AI, Computer Vision, and Embedded Systems: Google Gemini Vision API, OpenCV, GStreamer, YOLOv8/TFLite (active development), embedded Linux, IoT sensor integration, real-time AI inference pipelines.
 
-Data and Cloud: PostgreSQL, Redis, SQLite, SQLAlchemy, AWS, Docker, CI/CD pipelines, Nginx, MediaMTX (RTSP/WebRTC media server), HIPAA compliance, zero-trust security, Stripe payments, JWT authentication, microservices architecture.
+Frontend and UI Engineering: Next.js, React, TypeScript, Tailwind CSS, Framer Motion, GSAP, WebRTC. On top of his architecture work, he delivers ultra-modern, high-end interfaces with cinematic animations and fluid scroll experiences that maintain flawless performance.
 
 ---
 

@@ -6,7 +6,7 @@ export const runtime = 'nodejs';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
-const STACK = ['Next.js', 'React', 'Django', 'Go', 'PostgreSQL', 'AWS'];
+const STACK = ['AWS', 'Docker', 'Go', 'Django', 'PostgreSQL', 'Redis'];
 
 export default function Image() {
   const logoBuffer = readFileSync(join(process.cwd(), 'public/logo/logo_white.png'));
@@ -60,7 +60,7 @@ export default function Image() {
               textTransform: 'uppercase',
             }}
           >
-            Full Stack Engineer &amp; Web Developer
+            Infrastructure &amp; Systems Architect
           </span>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -97,7 +97,7 @@ export default function Image() {
               margin: '6px 0 0',
             }}
           >
-            5+ years building scalable, production-grade web applications.
+            5+ years architecting distributed, production-grade systems.
             Available for hire — remote, worldwide.
           </p>
         </div>

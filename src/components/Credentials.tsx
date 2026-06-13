@@ -12,9 +12,9 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 
 // ─── Floating background vocabulary ───────────────────────────────────────────
 const FLOAT_WORDS = [
-  'Certified', 'Verified', '2025', 'Full Stack',
+  'Certified', 'Verified', '2025', 'Architecture',
   'IBT Learning', '2024', 'Moat Academy', 'Zidio',
-  'Engineering', 'Development', 'Backend', 'Frontend',
+  'Engineering', 'Infrastructure', 'Systems', 'Cloud',
   'Internship', 'PostgreSQL', 'Accredited', 'Remote',
   'Awarded', 'Completed', '5+ Years', 'Production',
 ];
@@ -708,12 +708,12 @@ export function Credentials() {
                 animate={resumeInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ delay: 0.42, duration: 0.55, ease: EASE }}
               >
-                Full Stack Engineer — 5+ years · Remote
+                Infrastructure &amp; Systems Architect — 5+ years · Remote
               </motion.p>
 
               {/* Stack tags */}
               <div className="flex flex-wrap gap-2 mt-1">
-                {['Next.js', 'Go', 'Django', 'PostgreSQL', 'AWS', 'Docker'].map((tag, i) => (
+                {['AWS', 'Docker', 'Go', 'Django', 'PostgreSQL', 'Redis'].map((tag, i) => (
                   <motion.span
                     key={tag}
                     className="border border-white/12 text-white/28 text-[0.52rem] tracking-[0.16em] uppercase px-2.5 py-1"

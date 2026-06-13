@@ -21,8 +21,8 @@ const COUNTRIES = [
 ];
 
 const QUOTE_WORDS = [
-  'I', 'build', 'systems', 'that', "don’t", 'just', 'work', '—',
-  'they', 'scale,', 'stay', 'fast,', 'and', 'stay', 'clean', 'under', 'pressure.',
+  'I', 'architect', 'systems', 'that', "don’t", 'just', 'work', '—',
+  'they', 'scale,', 'survive', 'failure,', 'and', 'stay', 'clean', 'under', 'pressure.',
 ];
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -274,9 +274,9 @@ export function About() {
                   fontSize:   'clamp(1.05rem, 1.5vw, 1.3rem)',
                 }}
               >
-                5+ years of remote-first engineering for global clients — from B2C marketplaces to
-                medical platforms to oil &amp; gas portals. I work end-to-end: architecture,
-                backend, front-end, deployment.
+                5+ years designing and running production systems for global clients — multi-tenant
+                compliance platforms, HIPAA medical portals, high-traffic marketplaces. I own the
+                system end-to-end: architecture, infrastructure, backend, delivery.
               </p>
               <p
                 className="text-black/40 leading-relaxed"
@@ -286,8 +286,8 @@ export function About() {
                   fontSize:   'clamp(1rem, 1.3vw, 1.15rem)',
                 }}
               >
-                Core stack: Next.js, Django, Go, PostgreSQL. Also fluent in Redis, AWS, Docker,
-                and CI/CD pipelines. I care about the whole system — not just the feature.
+                Core: AWS, Docker, Go, Django, PostgreSQL, Redis, CI/CD. Fluent in Next.js for
+                when the system needs a face. I care about the whole system — not just the feature.
               </p>
 
               <motion.div
