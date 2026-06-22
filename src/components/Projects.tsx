@@ -42,6 +42,16 @@ const PROJECTS = [
     link: 'https://anoc.ng',
   },
   {
+    id: 'wytnest',
+    name: 'Wytnest',
+    category: 'Testimonial SaaS',
+    tagline: 'Multi-tenant testimonial platform — campaigns, video via Cloudflare Stream, shadow DOM widget embeds, and idempotent dual-rail payments: Paystack NGN + Stripe USD.',
+    stack: ['Next.js', 'Supabase', 'Cloudflare', 'Paystack', 'Stripe'],
+    image: '/projects/wytnest_hero.png',
+    year: '2026',
+    link: 'https://wytnest.vercel.app',
+  },
+  {
     id: 'nextgen',
     name: 'NextGen Robotics',
     category: 'Automation Hub',
