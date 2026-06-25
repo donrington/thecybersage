@@ -16,6 +16,7 @@ import { Marquee } from '@/components/Marquee';
 import { CurrentlyBuilding } from '@/components/CurrentlyBuilding';
 import { Process } from '@/components/Process';
 import { Testimonials } from '@/components/Testimonials';
+import { PricingPromo } from '@/components/PricingPromo';
 import { Stack } from '@/components/Stack';
 import { Contact } from '@/components/Contact';
 import { AIAssistant } from '@/components/AIAssistant';
@@ -70,6 +71,7 @@ export default function Home() {
           <Experience />
           <Credentials />
           <Testimonials />
+          <PricingPromo />
           <Contact />
         </main>
         <BackToTop />

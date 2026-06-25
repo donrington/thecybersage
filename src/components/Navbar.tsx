@@ -6,13 +6,14 @@ import Image from 'next/image';
 import { ChevronDown, ArrowRight } from 'lucide-react';
 
 const NAV_LINKS = [
-  { label: 'Work',        href: '#work',         chevron: false },
-  { label: 'Services',    href: '#services',     chevron: false },
-  { label: 'Process',     href: '#process',      chevron: false },
-  { label: 'About',       href: '#about',        chevron: false },
-  { label: 'Experience',  href: '#experience',   chevron: false },
-  { label: 'Credentials', href: '#credentials',  chevron: false },
-  { label: 'Reviews',     href: '#testimonials', chevron: false },
+  { label: 'Work',        href: '#work',                          chevron: false },
+  { label: 'Services',    href: '#services',                      chevron: false },
+  { label: 'Process',     href: '#process',                       chevron: false },
+  { label: 'About',       href: '#about',                         chevron: false },
+  { label: 'Experience',  href: '#experience',                    chevron: false },
+  { label: 'Credentials', href: '#credentials',                   chevron: false },
+  { label: 'Reviews',     href: '#testimonials',                  chevron: false },
+  { label: 'Pricing',     href: 'https://cybersage.dev/pricing',  chevron: false },
 ];
 
 const SPRING = { type: 'spring' as const, stiffness: 280, damping: 32, mass: 0.75 };
@@ -77,8 +78,8 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', fn);
   }, []);
 
-  /* Compact ≈ logo(140) + sep + 7 links(~520) + sep + CTA(~90) + padding ≈ 820 */
-  const COMPACT_W = 840;
+  /* Compact ≈ logo(160) + sep + 8 links(~580) + sep + CTA(~90) + padding ≈ 900 */
+  const COMPACT_W = 920;
   const targetW   = scrolled ? expandedW : COMPACT_W;
 
   return (
