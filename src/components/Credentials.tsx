@@ -276,14 +276,18 @@ function ContribGrid({ contributions }: { contributions: GHDay[] }) {
 function GitHubActivity({ sectionInView }: { sectionInView: boolean }) {
   const ref    = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: '-8%' });
-  const [data, setData]       = useState<GHData | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [data, setData]         = useState<GHData | null>(null);
+  const [loading, setLoading]   = useState(true);
+  const [unavailable, setUnavailable] = useState(false);
 
   useEffect(() => {
     fetch('/api/github')
       .then((r) => r.json())
-      .then((d) => { setData(d); setLoading(false); })
-      .catch(() => setLoading(false));
+      .then((d: GHData & { error?: boolean }) => {
+        if (d?.error) { setUnavailable(true); } else { setData(d); }
+        setLoading(false);
+      })
+      .catch(() => { setUnavailable(true); setLoading(false); });
   }, []);
 
   return (
@@ -340,7 +344,7 @@ function GitHubActivity({ sectionInView }: { sectionInView: boolean }) {
               className="text-[0.58rem] tracking-[0.22em] uppercase text-white/40 font-medium"
               style={{ fontFamily: 'Satoshi, system-ui, sans-serif' }}
             >
-              {loading ? 'Fetching activity…' : `Active ${data?.lastActive ?? 'recently'}`}
+              {loading ? 'Fetching activity…' : unavailable ? 'GitHub · rate limited' : `Active ${data?.lastActive ?? 'recently'}`}
             </span>
           </div>
           <a

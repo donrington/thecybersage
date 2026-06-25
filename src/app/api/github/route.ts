@@ -39,9 +39,18 @@ export async function GET() {
         { next: { revalidate: 3600 } }),
     ]);
 
+    if (!profileRes.ok) {
+      const status = profileRes.status;
+      const isRateLimit = status === 403 || status === 429;
+      return NextResponse.json(
+        { error: true, rateLimited: isRateLimit },
+        { status },
+      );
+    }
+
     const profile  = await profileRes.json();
-    const events   = await eventsRes.json();
-    const contribs = await contribRes.json();
+    const events   = eventsRes.ok ? await eventsRes.json() : [];
+    const contribs = contribRes.ok ? await contribRes.json() : {};
 
     // Deduplicate consecutive pushes to the same repo
     const seen = new Set<string>();
